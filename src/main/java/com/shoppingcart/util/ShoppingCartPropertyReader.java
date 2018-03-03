@@ -1,6 +1,7 @@
 package com.shoppingcart.util;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -14,7 +15,7 @@ public class ShoppingCartPropertyReader {
 		LoggerFactory.getLogger(ShoppingCartPropertyReader.class);
 
 	private static Properties properties = null;
-	private static final String propertiesFile = "./properties/ShoppingCart.properties";
+	private static final String propertiesFile = "/ShoppingCart.properties";
 	
 	//Private Constructor to avoid initiation
 	private ShoppingCartPropertyReader() {
@@ -28,10 +29,10 @@ public class ShoppingCartPropertyReader {
 	}
 
 	private static void init() {
-		FileInputStream inputStream = null;
+		InputStream inputStream = null;
 		try {
 			logger.info("Loading properties from file: " + propertiesFile);
-			inputStream = new FileInputStream(propertiesFile);
+			inputStream = ShoppingCartPropertyReader.class.getResourceAsStream(propertiesFile);
 			properties = new Properties();
 			properties.load(inputStream);
 		} catch (Exception e) {
