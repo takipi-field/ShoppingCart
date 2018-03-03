@@ -1,8 +1,7 @@
 package com.mockData.generate.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,10 +17,9 @@ public class DataTypeMappingPropertyReader {
 	private static Map<String, List<String>> dataMappingPropertiesMap = new HashMap<String, List<String>>();
 
 	static {
-		File file = new File("properties/dataMapping.properties");
         try {
             Properties dataTypeMappingProperties = new Properties();
-            FileInputStream myPropertiesInputStream = new FileInputStream(file);
+            InputStream myPropertiesInputStream = DataTypeMappingPropertyReader.class.getResourceAsStream("/DataMapping.properties");
             dataTypeMappingProperties.load(myPropertiesInputStream);
             loadDataMappingPropertiesMap(dataTypeMappingProperties);
         } catch (IOException e) {
