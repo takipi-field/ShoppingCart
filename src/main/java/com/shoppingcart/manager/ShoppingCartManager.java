@@ -9,6 +9,7 @@ import com.shoppingcart.domain.Order;
 import com.shoppingcart.domain.OrderDetail;
 import com.shoppingcart.domain.Product;
 import com.shoppingcart.domain.ShoppingCart;
+import com.shoppingcart.util.exception.CustomerInActiveException;
 
 public class ShoppingCartManager {
 
@@ -44,5 +45,12 @@ public class ShoppingCartManager {
 		orderDetail.setQuantity(quantity);
 		
 		order.add(orderDetail);
+	}
+
+	public void validate() {
+		Customer customer = cart.getCustomer();
+		if (!customer.isActive()) {
+			throw new CustomerInActiveException("Cannot create an order for an inactive customer: Customer is: " + customer.getAccountNumber());
+		}		
 	}
 }

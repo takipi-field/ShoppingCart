@@ -213,8 +213,18 @@ public class ShoppingCartWorkflow {
 	 * Create new skew. If the SkewType is COLOR, change it to COLOR_INDICATOR. Update it
 	 */
 	public void workflow10() {
-		log.info("Initiating ShoppingCart Workflow10 ...");			
+		log.info("Initiating ShoppingCart Workflow10 ...");
 		skewMgr.generateSkuAndChangeSkuTypeColor();
 	}
 
+	public void workflow11() {
+		log.info("Initiating ShoppingCart Workflow11 ...");
+		String customerNumber = "CUST1004";
+		Customer customer = custMgr.find(customerNumber);
+		if (customer == null) {
+			log.info("Could not find the customer with customerNumber: " + customerNumber);
+			//Could not find a customer, lets create an Overops Event to remind us.
+			custMgr.create(customerNumber);
+		}
+	}
 }

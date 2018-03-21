@@ -45,7 +45,7 @@ public class ShoppingCartThread implements Callable<Object> {
 	private void executeMultipleWorkflows() throws ParseException {
 		ShoppingCartWorkflow workflow = new ShoppingCartWorkflow();
 		
-		int randomNo = RandomUtil.getRandomNumberInRange(1, 11);
+		int randomNo = RandomUtil.getRandomNumberInRange(1, 12);
 		switch (randomNo) {
 			case 1:		workflow.workflow1(); break;
 			case 2: 		workflow.workflow2(); break;
@@ -57,6 +57,7 @@ public class ShoppingCartThread implements Callable<Object> {
 			case 8:		workflow.workflow8(); break;
 			case 9:		workflow.workflow9(); break;	
 			case 10:		workflow.workflow10(); break;
+			case 11:		workflow.workflow11(); break;			
 			default: 	throw new ShoppingCartException("Could not find workflow to initiate: " + randomNo);
 		}
 	}

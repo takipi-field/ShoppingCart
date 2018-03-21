@@ -6,14 +6,14 @@ import org.slf4j.LoggerFactory;
 import com.shoppingcart.workflow.ShoppingCartWorkflow;
 
 
-public class SwallowedWorkflowMain {
+public class RandomWorkflowMain {
 
-	private final static Logger log = LoggerFactory.getLogger(SwallowedWorkflowMain.class);
+	private final static Logger log = LoggerFactory.getLogger(RandomWorkflowMain.class);
 
 	public static void main(String[] args) {
 		log.info("Starting Retail Application ...");
 		ShoppingCartWorkflow workflow = new ShoppingCartWorkflow();
-		workflow.workflow10();
+		workflow.workflow11();
 		log.info("We are done ...");
 	}
 }

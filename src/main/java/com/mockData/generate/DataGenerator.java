@@ -26,8 +26,8 @@ public class DataGenerator {
 		DataTypeMappingPropertyReader.getDataTypePropertiesMap();
 	private PriceManager priceManager = new PriceManager();
 
-	public Customer createCustomer1() throws ParseException {
-		String customerNumber = RandomUtil.generateRandomAlphaString(3) + RandomUtil.generateRandomNumbers(4);
+
+	public Customer createCustomer(String customerNumber) throws ParseException {
 		Customer customer = generateCustomer(customerNumber);
 		
 		String orderNumber = RandomUtil.generateRandomAlphaString(3) + RandomUtil.generateRandomNumbers(4);
@@ -40,6 +40,12 @@ public class DataGenerator {
 		customer.setLastOrder(lastOrder);
 		
 		return customer;
+	}
+
+	
+	public Customer createCustomer1() throws ParseException {
+		String customerNumber = RandomUtil.generateRandomAlphaString(3) + RandomUtil.generateRandomNumbers(4);
+		return createCustomer(customerNumber);
 	}
 
 
@@ -106,7 +112,7 @@ public class DataGenerator {
 		customer.setDob(format.parse(dateString));
 		
 		CustomerNotes notes = new CustomerNotes();
-		customer.setNotes(notes.chooseCustomerNotes());
+		customer.setNotes(notes.getCustomerNotes());
 		customer.setLastUpdated(DateUtils.getNow());
 		return customer;
 	}

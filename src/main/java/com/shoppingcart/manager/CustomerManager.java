@@ -14,7 +14,11 @@ public class CustomerManager {
 	public Customer get(String customerNumber) {
 		return customerDAOImpl.getByCustomerNumber(customerNumber);
 	}
-	
+
+	public Customer create(String customerNumber) {
+		return customerDAOImpl.create(customerNumber);
+	}
+
 	public Customer create() {
 		return customerDAOImpl.create();
 	}
@@ -42,5 +46,9 @@ public class CustomerManager {
 	public boolean delete(Customer customer) {
 		return customerDAOImpl.delete(customer);
 		
+	}
+
+	public Customer find(String customerNumber) {
+		return customerDAOImpl.find(customerNumber);
 	}
 }

@@ -24,7 +24,7 @@ public class Customer extends BaseDomain {
 	private boolean active;
 	
 	private String notes;
-	
+
 	public Phone getDefaultPhone() {
 		for (Phone phone : phoneNumbers) {
 			if (phone.isDefaultInd())

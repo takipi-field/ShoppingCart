@@ -11,12 +11,15 @@ import com.shoppingcart.domain.Customer;
 import com.shoppingcart.domain.Order;
 import com.shoppingcart.persist.PersistLayer;
 import com.shoppingcart.util.exception.ShoppingCartException;
+import com.takipi.sdk.v1.api.Takipi;
+import com.takipi.sdk.v1.api.core.events.TakipiEvent;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
 	private DataGenerator dataGenerator = new DataGenerator();
 	private PersistLayer persistLayer = new PersistLayer();
 	private final static Logger log = LoggerFactory.getLogger(CustomerDAOImpl.class);
+    private static Takipi takipi = Takipi.create("NewCustomerEvent");
 
 
 	@Override
@@ -28,6 +31,18 @@ public class CustomerDAOImpl implements CustomerDAO {
 			log.error("Unable to create customer");
 			throw new ShoppingCartException(e);
 		}
+	}
+
+	public Customer create(String customerNumber) {
+		try {
+            TakipiEvent customEvent = takipi.events().createEvent("Creating a new Customer with CustomerNumber: " + customerNumber);
+            customEvent.fire();
+            log.info("Creating a new Customer with CustomerNumber: " + customerNumber);
+			return dataGenerator.createCustomer(customerNumber);
+		} catch (Exception e) {
+			log.error("Unable to create customer");
+			throw new ShoppingCartException(e);
+		}		
 	}
 
 	@Override
@@ -67,6 +82,12 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	@Override
 	public Customer getById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Customer find(String customerNumber) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -38,10 +38,11 @@ public class SingleThreadEngine {
 	private void executeUncaughtExceptions() {
 		CartWorkflow workflow = new CartWorkflow();
 		
-		int randomNo = RandomUtil.getRandomNumberInRange(1, 3);
+		int randomNo = RandomUtil.getRandomNumberInRange(1, 4);
 		switch (randomNo) {
 			case 1:		workflow.workflow1(); break;
 			case 2: 		workflow.workflow2(); break;
+			case 3:		workflow.workflow3(); break;
 			default:		throw new ShoppingCartException("Unable to find workflow to call.");
 		}
 	}

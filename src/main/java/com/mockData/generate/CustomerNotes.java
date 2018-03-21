@@ -13,8 +13,21 @@ public class CustomerNotes {
 						"Customer has visited online store mulitple times this week."
 							};
 
-	public String chooseCustomerNotes() {
-		int index = RandomUtil.getRandomNumberInRange(1, notes.length+1);
-		return notes[index];
+	public String getCustomerNotes() {
+		int index = RandomUtil.getRandomNumberInRange(1, notes.length+2);
+		if (index == notes.length+2) {
+			return getExternalNote();
+		} else {
+			return notes[index];
+		}
+	}
+	
+	private String getExternalNote() {
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return "Getting an external note from :NoteService: failed.";
 	}
 }

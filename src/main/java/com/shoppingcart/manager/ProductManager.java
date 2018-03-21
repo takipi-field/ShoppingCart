@@ -1,15 +1,11 @@
 package com.shoppingcart.manager;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.shoppingcart.dao.ProductDAO;
 import com.shoppingcart.dao.impl.ProductDAOImpl;
 import com.shoppingcart.domain.Product;
 
 public class ProductManager {
 
-	private final static Logger log = LoggerFactory.getLogger(ProductManager.class);
 	ProductDAO productDAO = new ProductDAOImpl();
 
 	public Product get(String productNumber) {
