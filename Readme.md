@@ -1,10 +1,14 @@
 To execute this ShoppingCartApplication from command prompt, you need a JDK and Maven
 
-1.  Go to the ShoppingCart Folder and execute
+1.  Go to ShoppingCart folder and execute
+
+mvn install:install-file -Dfile=takipi-sdk-0.2.0.jar -DgroupId=com.takipi -DartifactId=takipi-sdk -Dversion=0.2.0 -Dpackaging=jar -DgeneratePom=true
+
+2.  Go to the ShoppingCart Folder and execute
 ```
 mvn clean compile package
 ```
-2.  
+3.  
     * To run "All workflows", execute
     ```
     ./runAllWorkflows.sh
