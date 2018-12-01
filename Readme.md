@@ -38,8 +38,9 @@ You can also specify the OverOps ApplicationName and Deployment name from the sc
 -Dtakipi.name=ShoppingCartApplication -Dtakipi.deployment.name=v1.0
 ```
 
-4.
-  You can also run this from maven command line using the below command
+4. You can also run this from maven command line using the below command
+```
   	mvn exec:java
+```
 
 Good Luck.
