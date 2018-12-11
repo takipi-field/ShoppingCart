@@ -13,7 +13,9 @@ public class Main {
 	private final static Logger log = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) {
-		log.info("Starting Retail Application ...");
+		log.info("Starting Retail Application ...Waiting for 15 seconds for Overops to Initialize");
+		waiting(15000);
+
 		
 		//Get default values from property file.
 		String noOfThreads = ShoppingCartPropertyReader.
@@ -57,5 +59,13 @@ public class Main {
 			engine.run();
 		}
 		log.info("We are done ...");
+	}
+	
+	private static void waiting(int i) {
+		try {
+			Thread.sleep(i);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}		
 	}
 }
