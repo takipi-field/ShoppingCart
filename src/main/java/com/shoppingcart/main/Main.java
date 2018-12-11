@@ -13,8 +13,8 @@ public class Main {
 	private final static Logger log = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) {
-		log.info("Starting Retail Application ...Waiting for 45 seconds for Overops to Initialize");
-		waiting(45000);
+		log.info("Starting Retail Application ...Waiting for 15 seconds for Overops to Initialize");
+		waiting(15000);
 
 		
 		//Get default values from property file.
@@ -58,7 +58,9 @@ public class Main {
 				new Integer(numberOfIterations), runMode);
 			engine.run();
 		}
-		log.info("We are done ...");
+		log.info("We are done ...Waiting for 45 seconds");
+		waiting(45000);
+
 	}
 	
 	private static void waiting(int i) {
