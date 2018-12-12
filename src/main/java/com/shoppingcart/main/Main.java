@@ -58,9 +58,7 @@ public class Main {
 				new Integer(numberOfIterations), runMode);
 			engine.run();
 		}
-		log.info("We are done ...Waiting for 45 seconds");
-		waiting(45000);
-
+		log.info("We are done ...");
 	}
 	
 	private static void waiting(int i) {
