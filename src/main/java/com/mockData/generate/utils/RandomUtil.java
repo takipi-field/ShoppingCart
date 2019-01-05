@@ -74,7 +74,7 @@ public class RandomUtil {
     	String[] vals = {"a","b","c","d","e","f","g","h","i","j",
     			"k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
     	for(int lp = 0;lp < StringLength; lp++){
-    		returnVal.append(vals[generateRandom(30)]);
+    		returnVal.append(vals[generateRandom(26)]);
     	}
     	return returnVal.toString();
     }

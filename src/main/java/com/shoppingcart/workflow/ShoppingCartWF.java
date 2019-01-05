@@ -21,15 +21,15 @@ import com.shoppingcart.manager.ShoppingCartManager;
 import com.shoppingcart.manager.SkuManager;
 import com.shoppingcart.util.FileReader;
 
-public class ShoppingCartWorkflow {
+public class ShoppingCartWF {
 
-	private final static Logger log = LoggerFactory.getLogger(ShoppingCartWorkflow.class);
+	private final static Logger log = LoggerFactory.getLogger(ShoppingCartWF.class);
 	private 	CustomerManager custMgr = new CustomerManager();
 	private ProductManager productMgr = new ProductManager();
 	private SkuManager skewMgr = new SkuManager();
 	private OrderManager orderMgr = new OrderManager();
 	
-	public ShoppingCartWorkflow() {
+	public ShoppingCartWF() {
 	}
 
 	/*
@@ -111,7 +111,9 @@ public class ShoppingCartWorkflow {
 		log.info("Initiating ShoppingCart Workflow4 ...");
 		
 		log.info("Finding an existing order ...");
-		Order order = orderMgr.get("ORD352035");	
+		Customer customer = custMgr.get("CUST1003");	
+
+		Order order = orderMgr.get("ORD352035", customer.getAccountNumber());	
 		log.info("Successfully received order: " + order.getOrderNumber());
 		
 		log.info("Updating order date");

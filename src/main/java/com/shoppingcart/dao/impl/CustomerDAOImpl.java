@@ -19,7 +19,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 	private DataGenerator dataGenerator = new DataGenerator();
 	private PersistLayer persistLayer = new PersistLayer();
 	private final static Logger log = LoggerFactory.getLogger(CustomerDAOImpl.class);
-    private static Takipi takipi = Takipi.create("NewCustomerEvent");
 
 
 	@Override
@@ -35,14 +34,22 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	public Customer create(String customerNumber) {
 		try {
-            TakipiEvent customEvent = takipi.events().createEvent("Creating a new Customer with CustomerNumber: " + customerNumber);
-            customEvent.fire();
+		    Takipi takipi1 = Takipi.create("NewCustomerEvent: " + customerNumber);
+            TakipiEvent customEvent1 = takipi1.events().createEvent("CustomEvent: Creating a new Customer with CustomerNumber: " + customerNumber);
+            customEvent1.fire();
             log.info("Creating a new Customer with CustomerNumber: " + customerNumber);
-			return dataGenerator.createCustomer(customerNumber);
+            
+			Customer customer = dataGenerator.createCustomer(customerNumber);
+
+		    Takipi takipi2 = Takipi.create("CustomerCreatedEvent: " + customerNumber);    
+            TakipiEvent customEvent2 = takipi2.events().createEvent("CustomEvent: Sucessfully created a new Customer with CustomerNumber: " + customerNumber);
+            customEvent2.fire();
+
+            return customer;
 		} catch (Exception e) {
 			log.error("Unable to create customer");
 			throw new ShoppingCartException(e);
-		}		
+		}
 	}
 
 	@Override

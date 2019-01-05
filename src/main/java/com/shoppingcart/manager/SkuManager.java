@@ -38,11 +38,16 @@ public class SkuManager {
 	}
 
 	public SKU updateSkuType(SKU sku) {
-		if (sku.getSkuType().equalsIgnoreCase("COLOR")) {
-			log.info("Sku Type is COLOR. Need to update it.");
-			sku.setSkuType("COLOR_INDICATOR");
-			sku.setId(new Integer(sku.getSkuNumber()));
-			log.info("New Sku Type is: " + sku.getSkuType());
+		try {
+			if (sku.getSkuType().equalsIgnoreCase("COLOR")) {
+				log.info("Sku Type is COLOR. Need to update it.");
+				sku.setSkuType("COLOR_INDICATOR");
+				sku.setId(new Integer(sku.getSkuNumber()));
+				log.info("New Sku Type is: " + sku.getSkuType());
+			}
+		} catch (Exception e) {
+			//TODO: Handle exception when we get an incorrect SKU type
+			// For now, Swallow it ... continue.
 		}
 		return sku;
 	}

@@ -42,5 +42,14 @@ You can also specify the OverOps ApplicationName and Deployment name from the sc
 ```
   	mvn exec:java
 ```
+5. To execute the maven tests run the below command
+```
+  	mvn test
+```
+6. To get the surefire report, run the below command
+```
+	mvn surefire-report:report
+```
+The report will be available here {base_dir}/ShoppingCart/target/site/surefire-report.html
 
 Good Luck.

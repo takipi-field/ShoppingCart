@@ -43,7 +43,7 @@ public class ShoppingCartThread implements Callable<Object> {
 	}
 
 	private void executeMultipleWorkflows() throws ParseException {
-		ShoppingCartWorkflow workflow = new ShoppingCartWorkflow();
+		ShoppingCartWF workflow = new ShoppingCartWF();
 		
 		int randomNo = RandomUtil.getRandomNumberInRange(1, 12);
 		switch (randomNo) {

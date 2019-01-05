@@ -7,7 +7,6 @@ import com.shoppingcart.util.ShoppingCartPropertyReader;
 import com.shoppingcart.workflow.MultiThreadEngine;
 import com.shoppingcart.workflow.SingleThreadEngine;
 
-
 public class Main {
 
 	private final static Logger log = LoggerFactory.getLogger(Main.class);
@@ -16,7 +15,6 @@ public class Main {
 		log.info("Starting Retail Application ...Waiting for 15 seconds for Overops to Initialize");
 		waiting(15000);
 
-		
 		//Get default values from property file.
 		String noOfThreads = ShoppingCartPropertyReader.
 			getInstance().getProperty("SHOPPING_CART.NO.OF.THREADS");
@@ -25,6 +23,9 @@ public class Main {
 		String runMode = ShoppingCartPropertyReader.
 			getInstance().getProperty("SHOPPING_CART.RUN_MODE");
 
+		// Every run will create 2 random exceptions (used by Jenkins builds for new errors)
+		Main2RandomExceptions.main(args);
+		
 		//Override the default properties from the command line program arguments (if passed)
 		if (args != null && args.length != 0) {
 			int i = 0;
@@ -60,7 +61,7 @@ public class Main {
 		}
 		log.info("We are done ...");
 	}
-	
+
 	private static void waiting(int i) {
 		try {
 			Thread.sleep(i);
