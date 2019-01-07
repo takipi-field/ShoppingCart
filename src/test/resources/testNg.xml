@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="ShoppingCartSuite" parallel="false">
+  <test name="ShoppingCartTests">
+    <classes>
+      <class name="com.shoppingcart.test.CustomerTest"/>
+      <class name="com.shoppingcart.test.SkuTest"/>
+      <class name="com.shoppingcart.test.RandomTests"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->

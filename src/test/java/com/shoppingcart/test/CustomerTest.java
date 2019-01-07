@@ -6,25 +6,22 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.commons.lang.math.NumberUtils;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import com.shoppingcart.dao.CustomerDAO;
 import com.shoppingcart.dao.impl.CustomerDAOImpl;
 import com.shoppingcart.domain.Customer;
 
-public class TestCustomer {
+public class CustomerTest {
 
 	private static CustomerDAO customerDAO = null;
 	private static Customer customer = null;
-	private final static Logger log = LoggerFactory.getLogger(TestCustomer.class);
+	private final static Logger log = LoggerFactory.getLogger(CustomerTest.class);
 
-	@BeforeAll
+	@BeforeClass
 	static void setUpBeforeClass() throws Exception {
 		try {
 			customerDAO = new CustomerDAOImpl();
@@ -32,18 +29,6 @@ public class TestCustomer {
 		} catch (Exception e) {
 			log.error("Could not create customer");
 		}
-	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
 	}
 
 	@Test

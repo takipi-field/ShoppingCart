@@ -5,11 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,13 +15,13 @@ import com.shoppingcart.dao.impl.SkuDAOImpl;
 import com.shoppingcart.domain.SKU;
 import com.shoppingcart.util.exception.ShoppingCartException;
 
-public class TestSkew {
+public class SkuTest {
 
 	private static SkuDAO skuDAO = null;
 	private static SKU sku = null;
-	private final static Logger log = LoggerFactory.getLogger(TestSkew.class);
+	private final static Logger log = LoggerFactory.getLogger(SkuTest.class);
 
-	@BeforeAll
+	@BeforeClass
 	static void setUpBeforeClass() throws Exception {
 		try {
 			skuDAO = new SkuDAOImpl();
@@ -32,18 +29,6 @@ public class TestSkew {
 		} catch (Exception e) {
 			log.error("Could not create Skew");
 		}
-	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
 	}
 
 	@Test
