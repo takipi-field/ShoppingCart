@@ -6,24 +6,31 @@ import java.sql.Statement;
 import javax.sql.ConnectionEvent;
 import javax.sql.PooledConnection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mockData.generate.utils.RandomUtil;
 import com.shoppingcart.domain.Product;
 import com.shoppingcart.util.exception.ShoppingCartException;
 
 public class PriceManager {
 
+	private final static Logger log = LoggerFactory.getLogger(PriceManager.class);
 	private PooledConnection connectString = null;
 
 	public double getPrice() {
+		log.info("Getting the price ...");
 		int randomNumber = RandomUtil.generateRandom(1);
 		if (randomNumber == 5) {
 			return new Double("$56.50");
 		}
+		log.info("Returning the price ...");
 		return new Double(RandomUtil.generateRandomDecimal(3).doubleValue());
 	}
 
 	public Object getVariablePrice(Product product) {
 		try {
+			log.info("Getting the variable price ...");
 			int randomNumber = RandomUtil.generateRandom(10);
 			if (randomNumber == 7) {
 				//Product type is an external product - try and get it.
@@ -31,7 +38,7 @@ public class PriceManager {
 				Statement stmnt = conn.createStatement();
 				stmnt.executeQuery("select price from priceTable where productId = " + product.getId());
 			}
-			
+			log.info("Executed query to get the variable price ...");
 			if (randomNumber  == 8) {
 				return "$45.50";
 			}

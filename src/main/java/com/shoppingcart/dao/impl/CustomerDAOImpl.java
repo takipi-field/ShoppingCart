@@ -24,7 +24,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 	@Override
 	public Customer getByCustomerNumber(String customerNumber) {
 		try {
+			log.info("Trying to get the Order by customerNumber");
 			Customer customer = dataGenerator.generateCustomer(customerNumber);
+			log.info("Found the customer");
 			return customer;
 		} catch (Exception e) {
 			log.error("Unable to create customer");
@@ -34,6 +36,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	public Customer create(String customerNumber) {
 		try {
+			log.info("Creating the customer");
 		    Takipi takipi1 = Takipi.create("NewCustomerEvent: " + customerNumber);
             TakipiEvent customEvent1 = takipi1.events().createEvent("CustomEvent: Creating a new Customer with CustomerNumber: " + customerNumber);
             customEvent1.fire();
@@ -45,6 +48,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             TakipiEvent customEvent2 = takipi2.events().createEvent("CustomEvent: Sucessfully created a new Customer with CustomerNumber: " + customerNumber);
             customEvent2.fire();
 
+			log.info("Completed creating the customer");
             return customer;
 		} catch (Exception e) {
 			log.error("Unable to create customer");
@@ -55,6 +59,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	@Override
 	public Customer create() {
 		try {
+			log.info("Creating a customer");
 			return dataGenerator.createCustomer1();
 		} catch (Exception e) {
 			log.error("Unable to create customer");
@@ -78,7 +83,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 		if (success)
 			return true;
 		throw new ShoppingCartException("Unable to delete customer " + customer.getAccountNumber());
-
 	}
 
 	@Override

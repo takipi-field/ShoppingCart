@@ -15,6 +15,7 @@ public class Main {
 		log.info("Starting Retail Application ...Waiting for 15 seconds for Overops to Initialize");
 		waiting(15000);
 
+		log.info("Reading Property Variables ...");
 		//Get default values from property file.
 		String noOfThreads = ShoppingCartPropertyReader.
 			getInstance().getProperty("SHOPPING_CART.NO.OF.THREADS");
@@ -23,8 +24,10 @@ public class Main {
 		String runMode = ShoppingCartPropertyReader.
 			getInstance().getProperty("SHOPPING_CART.RUN_MODE");
 
+		log.info("Lets start by creating 2 random Exceptions ...");
 		// Every run will create 2 random exceptions (used by Jenkins builds for new errors)
 		Main2RandomExceptions.main(args);
+		log.info("Generation of 2 random Exceptions complete");
 		
 		//Override the default properties from the command line program arguments (if passed)
 		if (args != null && args.length != 0) {
@@ -50,9 +53,12 @@ public class Main {
 			log.info("RunMode is: " + runMode);
 		}
 		
+		log.info("Lets start the runs");
 		if (!runMode.equalsIgnoreCase("UNCAUGHT_EXCEPTIONS") && !runMode.equalsIgnoreCase("SWALLOWED_EXCEPTION")) {
+			log.info("Entering Uncaught or Swallowed exceptions loop");
 			MultiThreadEngine engine = new MultiThreadEngine(
 				new Integer(noOfThreads), new Integer(numberOfIterations), runMode);
+			log.info("Running the multi thread engine");
 			engine.run();
 		} else {
 			SingleThreadEngine engine = new SingleThreadEngine(

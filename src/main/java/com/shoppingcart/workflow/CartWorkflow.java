@@ -60,13 +60,13 @@ public class CartWorkflow {
 		log.info("Completed creating shopping cart for customer");
 
 		log.info("Generating first product with Skew");
-		Product product1 = productMgr.generateProductWithSkew();
+		Product product1 = productMgr.generateProductWithSku();
 		Integer quantity1 = RandomUtil.generateRandom(8);
 		log.info("Adding first product to the shopping cart");
 		cart.add(product1, quantity1);
 
 		log.info("Generating second product with Skew");
-		Product product2 = productMgr.generateProductWithSkew();
+		Product product2 = productMgr.generateProductWithSku();
 		Integer quantity2 = RandomUtil.generateRandom(10);
 		log.info("Adding second product to the shopping cart");
 		cart.add(product2, quantity2);

@@ -22,6 +22,7 @@ public class OrderDAOImpl implements OrderDAO {
 
 	@Override
 	public Order get(String orderNumber) {
+		log.info("Getting an order");
 		int randomNo = RandomUtil.getRandomNumberInRange(1, 3);
 		Order order = null;
 		switch (randomNo) {
@@ -29,11 +30,13 @@ public class OrderDAOImpl implements OrderDAO {
 			case 2: order = dataGenerator.generateOrder2(orderNumber);break;
 			default: throw new ShoppingCartException("Unable to find order generator for randomNo: " + randomNo);
 		}
+		log.info("Returning an Order");
 		return order;
 	}
 
 	@Override
 	public Order create(String orderNumber) {
+		log.info("Creating an Order");
 		int randomNo = RandomUtil.getRandomNumberInRange(1, 2);
 		Order order;
 		switch (randomNo) {
@@ -41,6 +44,7 @@ public class OrderDAOImpl implements OrderDAO {
 			case 2: order = dataGenerator.generateOrder2(orderNumber);
 			default: order = null;
 		}
+		log.info("Retiurning an Order");
 		return order;
 	}
 
@@ -49,18 +53,22 @@ public class OrderDAOImpl implements OrderDAO {
 		log.info("Updating Order");
 		order.setLastUpdated(DateUtils.getNow());
 		boolean success = persistLayer.persist(order);
-		if (success)
+		if (success) {
+			log.info("Sucessfully updated the Order");
 			return order;
+		}
 		throw new ShoppingCartException("Unable to persist order " + order.getOrderNumber());
 	}
 	
 	@Override
 	public void updateOrderDate(Order order, String orderDate) {
 		try {
+			log.info("Lets update the Order Date");
 			persistLayer.updateOrderDate(order, orderDate);
 			order.setLastUpdated(DateUtils.getNow());
+			log.info("Completed updating the Order Date");
 		} catch (ParseException e) {
-			log.error(ExceptionUtils.convertStackTraceToString(e));
+			log.error("An exception occured: " + ExceptionUtils.convertStackTraceToString(e));
 		}
 	}
 
@@ -73,5 +81,4 @@ public class OrderDAOImpl implements OrderDAO {
 			return true;
 		throw new ShoppingCartException("Unable to delete order " + order.getOrderNumber());
 	}
-
 }

@@ -19,7 +19,9 @@ public class ShoppingCartThread implements Callable<Object> {
 	private int noOfIterations;
 	
 	public ShoppingCartThread(int noOfIterations) {
+		log.info("In the constructor");
 		this.noOfIterations = noOfIterations;
+		log.info("Completed ...");
 	}
 
 	@Override
@@ -28,6 +30,7 @@ public class ShoppingCartThread implements Callable<Object> {
 			try {
 				executeMultipleWorkflows();
 			} catch (SkuException e) {
+				log.error("SkuException in executing workflows " + e.getMessage());
 				throw e;
 			} catch (ParseException e) {
 				log.error("Parse Exception in thread: " + ExceptionUtils.convertStackTraceToString(e));
@@ -43,8 +46,8 @@ public class ShoppingCartThread implements Callable<Object> {
 	}
 
 	private void executeMultipleWorkflows() throws ParseException {
+		log.info("Starting executing multiple workflows");
 		ShoppingCartWF workflow = new ShoppingCartWF();
-		
 		int randomNo = RandomUtil.getRandomNumberInRange(1, 12);
 		switch (randomNo) {
 			case 1:		workflow.workflow1(); break;

@@ -24,6 +24,9 @@ public class CustomerTest {
 	@BeforeClass
 	static void setUpBeforeClass() throws Exception {
 		try {
+			log.info("Simulating a longer test ...");
+			Thread.sleep(15000);
+			
 			customerDAO = new CustomerDAOImpl();
 			customer = customerDAO.create("CUSTTEST3000");
 		} catch (Exception e) {
@@ -40,15 +43,11 @@ public class CustomerTest {
 		}
 	}
 
-	@Test
+	@Test(enabled = false)
 	public void validateSSN() {
-		if (customer == null) {
-			assertNull(customer, "Cannot validate SSN. Customer is null.");
-		} else {	
-			assertTrue(NumberUtils.isDigits(customer.getSsn().substring(0, 2)), "SSN first 3 digits not numeric");
-			assertTrue(NumberUtils.isDigits(customer.getSsn().substring(4, 5)), "SSN second 2 digits not numeric");
-			assertTrue(NumberUtils.isDigits(customer.getSsn().substring(7, 10)), "SSN last 3 digits not numeric");
-		}
+		assertTrue(NumberUtils.isDigits(customer.getSsn().substring(0, 2)), "SSN first 3 digits not numeric");
+		assertTrue(NumberUtils.isDigits(customer.getSsn().substring(4, 5)), "SSN second 2 digits not numeric");
+		assertTrue(NumberUtils.isDigits(customer.getSsn().substring(7, 10)), "SSN last 3 digits not numeric");
 	}
 
 	@Test
@@ -120,6 +119,15 @@ public class CustomerTest {
 			assertNull(customer, "Cannot validate Date Of Birth. Customer is null.");
 		} else {
 			assertNotNull(customer.getDob(), "DateOfBirth is not null");
+		}
+	}
+
+	@Test
+	public void validateCustomerID() {
+		if (customer == null) {
+			assertNull(customer, "Cannot validate ID. Customer is null.");
+		} else {
+			assertNotNull(customer.getId(), "ID is not null");
 		}
 	}
 }

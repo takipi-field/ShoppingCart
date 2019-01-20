@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mockData.generate.utils.DataTypeMappingPropertyReader;
 import com.mockData.generate.utils.DateUtils;
 import com.mockData.generate.utils.RandomUtil;
@@ -22,12 +25,14 @@ import com.shoppingcart.manager.PriceManager;
 
 public class DataGenerator {
 
+	private final static Logger log = LoggerFactory.getLogger(DataGenerator.class);
 	private static Map<String, List<String>> dataTypePropertiesMap = 
 		DataTypeMappingPropertyReader.getDataTypePropertiesMap();
 	private PriceManager priceManager = new PriceManager();
 
 
 	public Customer createCustomer(String customerNumber) throws ParseException {
+		log.info("Creating a customer");
 		Customer customer = generateCustomer(customerNumber);
 		
 		String orderNumber = RandomUtil.generateRandomAlphaString(3) + RandomUtil.generateRandomNumbers(4);
@@ -39,17 +44,20 @@ public class DataGenerator {
 		lastOrder.setCustomer(customer);
 		customer.setLastOrder(lastOrder);
 		
+		log.info("Completed creating Customer");
 		return customer;
 	}
 
 	
 	public Customer createCustomer1() throws ParseException {
+		log.info("Creating a customer");
 		String customerNumber = RandomUtil.generateRandomAlphaString(3) + RandomUtil.generateRandomNumbers(4);
 		return createCustomer(customerNumber);
 	}
 
 
 	private List<OrderDetail> getOrderDetails1(String orderNumber) {
+		log.info("Creating order details");
 		Product product1 = generateProduct();
 		SKU sku1 = generateSkuColor();
 		SKU sku2 = generateSkuSize();
@@ -57,6 +65,7 @@ public class DataGenerator {
 		skuList1.add(sku1);skuList1.add(sku2);
 		product1.setSkus(skuList1);
 
+		log.info("Generating a product");
 		Product product2 = generateProduct();
 		SKU sku3 = generateSkuColor();
 		SKU sku4 = generateSkuSize();
@@ -64,19 +73,24 @@ public class DataGenerator {
 		skuList2.add(sku3);skuList2.add(sku4);
 		product2.setSkus(skuList2);
 		
+		log.info("Generating Order Details");
 		OrderDetail orderDetail1 = generateOrderDetail(orderNumber);
 		orderDetail1.setProduct(product1);
 		
+		log.info("Creating a second Order");
 		OrderDetail orderDetail2 = generateOrderDetail(orderNumber);
 		orderDetail2.setProduct(product2);
 
 		List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
 		orderDetailList.add(orderDetail1);orderDetailList.add(orderDetail2);
+		
+		log.info("Lets return the order details");
 		return orderDetailList;
 	}
 	
 	
 	public Customer generateCustomer(String customerNumber) throws ParseException {
+		log.info("Generating a customer");
 		Customer customer = new Customer();
 		
 		customer.setAccountNumber(customerNumber);
@@ -88,6 +102,7 @@ public class DataGenerator {
 		customer.setCustomerType(generateCustomerType());
 		customer.setSsn(RandomUtil.generateRandomSSN());
 
+		log.info("Creating a a home and work address");
 		Address homeAddress = generateAddress("home", true);
 		Address workAddress = generateAddress("work", false);
 		
@@ -95,12 +110,14 @@ public class DataGenerator {
 		addressList.add(homeAddress); addressList.add(workAddress);
 		customer.setAddresses(addressList);
 
+		log.info("Generating an email ...");
 		Email email1 = generateEmail(customer.getFullName(), "work", true);
 		Email email2 = generateEmail(customer.getFullName(), "home", false);
 		List<Email> emailList = new ArrayList<Email>();
 		emailList.add(email1); emailList.add(email2);
 		customer.setEmails(emailList);
 		
+		log.info("Generating phone numbers ...");
 		Phone phone1 = generatePhone("mobile", true);
 		Phone phone2 = generatePhone("work", false);
 		List<Phone> phoneList = new ArrayList<Phone>();
@@ -114,10 +131,13 @@ public class DataGenerator {
 		CustomerNotes notes = new CustomerNotes();
 		customer.setNotes(notes.getCustomerNotes());
 		customer.setLastUpdated(DateUtils.getNow());
+		
+		log.info("Complete - lets return customer");
 		return customer;
 	}
 
 	private Phone generatePhone(String string, boolean b) {
+		log.info("Creating a phone");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -125,6 +145,7 @@ public class DataGenerator {
 
 	private Email generateEmail(String fullName, 
 			String emailAddressType, boolean defaultInd) {
+		log.info("Generating email ...");
 		Email email = new Email();
 		email.setId(RandomUtil.generateRandom(999999));
 		email.setDefaultInd(defaultInd);
@@ -137,6 +158,7 @@ public class DataGenerator {
 
 
 	private Address generateAddress(String addressType, boolean defaultInd) {
+		log.info("Generating an address");
 		Address address = new Address();
 		address.setLine1(DataTypeGenerator.getRandomDataType("STREET_ADDRESS"));
 		address.setLine2(null);
@@ -153,6 +175,7 @@ public class DataGenerator {
 
 
 	public Order generateOrder1(String orderNumber) {
+		log.info("Generating an order");
 		Order order = new Order();
 			
 		order.setOrderNumber(orderNumber);
@@ -166,6 +189,8 @@ public class DataGenerator {
 	}
 	
 	public Order generateOrder2(String orderNumber) {
+		log.info("Generating an order");
+
 		Order order = generateOrder1(orderNumber);
 		List<OrderDetail> orderDetailList = getOrderDetails1(orderNumber);
 		order.setOrderDetailsList(orderDetailList);
@@ -173,6 +198,8 @@ public class DataGenerator {
 	}
 	
 	public OrderDetail generateOrderDetail(String orderNumber) {
+		log.info("Creating a order detail");
+
 		OrderDetail orderDetail = new OrderDetail();
 		orderDetail.setOrderNumber(orderNumber);
 		orderDetail.setOrderDetailNumber(RandomUtil.generateRandomNumeric(5).toString());
@@ -184,6 +211,8 @@ public class DataGenerator {
 	}
 	
 	private CustomerType generateCustomerType() {
+		log.info("Generating a customer type");
+
 		CustomerType customerType = new CustomerType();
 
 		customerType.setName(DataTypeGenerator.getRandomDataType("CUSTOMER_TYPE"));
@@ -193,13 +222,14 @@ public class DataGenerator {
 	}
 
 	public Product generateProduct() {
+		log.info("Generating a product");
 		return generateProduct(RandomUtil.generateRandomNumeric(5).toString());
 	}
 	
 	public Product generateProduct(String productNumber) {
+		log.info("Generating a product");
 		List<String> valueList = dataTypePropertiesMap.get("PRODUCT_NAMES");
 		int randomNumber = RandomUtil.getRandomNumberInRange(0, valueList.size());
-
 		
 		Product product = new Product();
 		product.setProductNumber(productNumber);
@@ -219,6 +249,8 @@ public class DataGenerator {
 	}
 	
 	public Product generateVariablePriceProduct() {
+		log.info("Generating a variable price product");
+
 		Product product = generateProduct();
 		product.setFixedPrice(false);
 		
@@ -229,11 +261,15 @@ public class DataGenerator {
 	}
 	
 	public SKU generateSkuColor() {
+		log.info("Generating a Sku Color");
+
 		String skuNumber = RandomUtil.generateRandomAlphaString(5);
 		return generateSkuColor(skuNumber);
 	}
 
 	public SKU generateSkuColor(String skuNumber) {
+		log.info("Generating a Sku Color");
+
 		SKU sku = new SKU();
 		
 		sku.setSkuNumber(skuNumber);
@@ -246,6 +282,8 @@ public class DataGenerator {
 	}
 	
 	public SKU generateSkuSize(String skuNumber) {
+		log.info("Generating a Sku Size");
+
 		SKU sku = new SKU();
 		
 		sku.setSkuNumber(skuNumber);
@@ -258,16 +296,22 @@ public class DataGenerator {
 	}
 
 	public SKU generateSkuSize() {
+		log.info("Generating a Sku Size");
+
 		String skuNumber = RandomUtil.generateRandomAlphaString(5);
 		return generateSkuSize(skuNumber);
 	}
 
 	public SKU generateRandomSku() {
+		log.info("Generating a Random Sku");
+
 		String skuNumber = RandomUtil.generateRandomAlphaString(5);
 		return generateRandomSku(skuNumber);
 	}
 
 	public SKU generateRandomSku(String skuNumber) {
+		log.info("Generating a Random Sku");
+
 		int x = RandomUtil.generateRandom(2);
 		if (x % 2 == 0) {
 			return generateSkuSize(skuNumber);

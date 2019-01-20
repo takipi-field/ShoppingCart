@@ -17,17 +17,20 @@ public class SkuDAOImpl implements SkuDAO {
 
 	@Override
 	public SKU get(String skuNumber) {
+		log.info("Getting a Sku");
 		SKU sku = dataGenerator.generateRandomSku(skuNumber);
 		return sku;
 	}
 
 	public SKU generate() {
+		log.info("Generating a Sku");
 		SKU sku = dataGenerator.generateRandomSku();
 		return sku;
 	}
 
 	@Override
 	public SKU create(String skuNumber) {
+		log.info("Creating a Sku");
 		SKU sku = dataGenerator.generateRandomSku(skuNumber);
 		return sku;
 	}
@@ -43,6 +46,7 @@ public class SkuDAOImpl implements SkuDAO {
 
 	@Override
 	public boolean delete(SKU sku) {
+		log.info("Deleting a Sku");
 		persistLayer.deleteSku(sku);
 		return true;
 	}

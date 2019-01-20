@@ -19,16 +19,20 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public Product get(String productNumber) {
+		log.info("Getting a product");
 		Product product = dataGenerator.generateProduct(productNumber);
 		return product;
 	}
 
 	public Product generate() {
+		log.info("Generating a product");
 		Product product = dataGenerator.generateProduct();
 		return product;
 	}
 	
 	public Product generateProductWithSku() {
+		log.info("Generating a product with Sku");
+
 		Product product = dataGenerator.generateProduct();
 		product.addSku(dataGenerator.generateRandomSku());
 		return product;
@@ -36,6 +40,8 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public Product create(String productNumber) {
+		log.info("Creating a product");
+
 		Product product = dataGenerator.generateProduct(productNumber);
 		return product;
 	}
@@ -65,5 +71,4 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 		return false;
 	}
-
 }

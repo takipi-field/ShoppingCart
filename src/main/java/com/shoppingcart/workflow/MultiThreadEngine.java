@@ -22,20 +22,28 @@ public class MultiThreadEngine {
 
 	public MultiThreadEngine(int numberOfThreads, 
 			int numberOfIterations, String runMode) {
+		log.info("Initializing Constructor");
 		this.numberOfThreads = numberOfThreads;
 		this.numberOfIterations = numberOfIterations;
+		log.info("Completed initializing Constructor");
 	}
 	
 	public void run() {
+		log.info("Entering run method");
 		ExecutorService executor = Executors.
 			newFixedThreadPool(numberOfThreads);
+		log.info("Creating a future List ...");
 		List<Future<?>> futureList = new ArrayList<Future<?>>();
 		for(int i = 0; i < numberOfThreads; i++) {
+			log.info("Lets submit a shopping cart Job ...");
 			Future<?> future = executor.submit(
 				new ShoppingCartThread(this.numberOfIterations));
+			log.info("Add it to the furute list ...");
 			futureList.add(future);
 		}
+		log.info("Lets handle the shutdown ...");
 		handleShutdown(executor, futureList);
+		log.info("Completed handling shutdown ...");
 	}
 
 	private void handleShutdown(ExecutorService 

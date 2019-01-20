@@ -14,30 +14,40 @@ public class SkuManager {
 	SkuDAO skuDAO = new SkuDAOImpl();
 
 	public SKU get(String skuNumber) {
+		log.info("Getting the Sku for SkuNumber: " + skuNumber);
 		return skuDAO.get(skuNumber);
 	}
 
 	public SKU generate() {
+		log.info("Generating a Sku.");
 		return skuDAO.generate();
 	}
 
 	public void update(SKU sku) {
+		log.info("Updating a Sku.");
 		skuDAO.update(sku);
 	}
 	
 	public void updateModel(SKU sku) {
-		
+		log.info("Updating a Model.");
 		String connection = AmazonUtils.connect();
+		log.info("Connecting to Amazon ...");
 		String skuType = AmazonUtils.getSkuType(connection, sku);
+		log.info("Getting SkuType from Amazon");
 		sku.setSkuType(skuType);
+		log.info("Updating SkuType");
 		skuDAO.update(sku);
+		log.info("Update Sku Completed.");
 	}
 	
 	public void delete(SKU sku) {
+		log.info("Deleting the Sku");
 		skuDAO.delete(sku);
+		log.info("Successfully deleted the Sku");
 	}
 
 	public SKU updateSkuType(SKU sku) {
+		log.info("Updating the Sku");
 		try {
 			if (sku.getSkuType().equalsIgnoreCase("COLOR")) {
 				log.info("Sku Type is COLOR. Need to update it.");
@@ -49,6 +59,7 @@ public class SkuManager {
 			//TODO: Handle exception when we get an incorrect SKU type
 			// For now, Swallow it ... continue.
 		}
+		log.info("Sucessfully updated the Sku");
 		return sku;
 	}
 

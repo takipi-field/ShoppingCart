@@ -28,6 +28,7 @@ public class LoginManager {
 
 	public void login() {
 		try {
+			log.info("Attempting to login");
 			int randomNumber = RandomUtil.generateRandom(10);
 			if (randomNumber == 5) {
 				throw new LoginException("Unable to login for Customer: " + loggedInCustomer.getAccountNumber());

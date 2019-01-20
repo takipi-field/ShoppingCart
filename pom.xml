@@ -109,18 +109,21 @@
           			<suiteXmlFiles>
             				<suiteXmlFile>src/test/resources/testNg.xml</suiteXmlFile>
           			</suiteXmlFiles>
+          			<argLine>-agentlib:TakipiAgent -Dtakipi.name=ShoppingCartJUnitTests -Dtakipi.deployment.name=v4.6</argLine>
+          			<!-- 
           			<systemPropertyVariables>
           				<takipi.name>ShoppingCartJUnitTests</takipi.name>
           				<takipi.deployment.name>v4.5</takipi.deployment.name>
+          				<takipi.resources.folder>$HOME</takipi.resources.folder>
           			</systemPropertyVariables>
           			<additionalClasspathElements>
           				<additionalClasspathElement>-agentlib:TakipiAgent</additionalClasspathElement>
           			</additionalClasspathElements>
+          			 -->
         			</configuration>
       		</plugin>
       		
-      		<!-- Below Plugins are not used - just here for reference -->
- <!--     	<plugin>
+      	<plugin>
         			<groupId>org.apache.maven.plugins</groupId>
         			<artifactId>maven-surefire-report-plugin</artifactId>
         			<version>2.19.1</version>
@@ -136,7 +139,7 @@
 			  <artifactId>maven-project-info-reports-plugin</artifactId>
 			  <version>3.0.0</version>
 			</plugin>
- --> 
+  
         </plugins>
     </build>
 </project> 
