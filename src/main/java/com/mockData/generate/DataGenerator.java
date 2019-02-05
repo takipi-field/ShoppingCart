@@ -124,11 +124,9 @@ public class DataGenerator {
 		phoneList.add(phone1); phoneList.add(phone2);
 		customer.setPhoneNumbers(phoneList);
 
-		String dateString2 = DateUtils.getRandomDateString();
-		SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		String letsGo = "Patriots Rock " + dateString2;
-		log.info(letsGo);
-		customer.setDob(format2.parse(dateString2));
+		String dateString3 = DateUtils.getRandomDateString();
+		SimpleDateFormat format3 = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		customer.setDob(format3.parse(dateString3));
 		
 		CustomerNotes notes = new CustomerNotes();
 		customer.setNotes(notes.getCustomerNotes());
