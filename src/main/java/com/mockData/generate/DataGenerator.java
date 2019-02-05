@@ -140,7 +140,7 @@ public class DataGenerator {
 		log.info("Creating a phone");
 		int x = RandomUtil.generateRandom(2);
 		if (x % 2 == 0) {
-			String y = "y";
+			String y = null;
 			y.equals("y");
 		}
 		
