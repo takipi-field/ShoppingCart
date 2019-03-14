@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class DataTypeMappingPropertyReader {
 

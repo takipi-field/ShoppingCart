@@ -110,16 +110,6 @@
             				<suiteXmlFile>src/test/resources/testNg.xml</suiteXmlFile>
           			</suiteXmlFiles>
           			<argLine>-agentlib:TakipiAgent -Dtakipi.name=ShoppingCartJUnitTests -Dtakipi.deployment.name=v4.6</argLine>
-          			<!-- 
-          			<systemPropertyVariables>
-          				<takipi.name>ShoppingCartJUnitTests</takipi.name>
-          				<takipi.deployment.name>v4.5</takipi.deployment.name>
-          				<takipi.resources.folder>$HOME</takipi.resources.folder>
-          			</systemPropertyVariables>
-          			<additionalClasspathElements>
-          				<additionalClasspathElement>-agentlib:TakipiAgent</additionalClasspathElement>
-          			</additionalClasspathElements>
-          			 -->
         			</configuration>
       		</plugin>
       		

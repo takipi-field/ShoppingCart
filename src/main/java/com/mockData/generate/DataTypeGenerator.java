@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.mockData.generate.utils.DataTypeMappingPropertyReader;
 import com.mockData.generate.utils.RandomUtil;
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class DataTypeGenerator {
 

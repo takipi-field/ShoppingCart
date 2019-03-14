@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.shoppingcart.dao.SkuDAO;
 import com.shoppingcart.dao.impl.SkuDAOImpl;
 import com.shoppingcart.domain.SKU;
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class SkuTest {
 

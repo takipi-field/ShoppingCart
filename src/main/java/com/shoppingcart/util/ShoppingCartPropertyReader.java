@@ -6,7 +6,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class ShoppingCartPropertyReader {
 

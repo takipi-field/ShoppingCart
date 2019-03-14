@@ -23,10 +23,7 @@ public class CustomerTest {
 
 	@BeforeClass
 	static void setUpBeforeClass() throws Exception {
-		try {
-			log.info("Simulating a longer test ...");
-			Thread.sleep(15000);
-			
+		try {			
 			customerDAO = new CustomerDAOImpl();
 			customer = customerDAO.create("CUSTTEST3000");
 		} catch (Exception e) {

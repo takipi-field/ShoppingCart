@@ -12,7 +12,7 @@ import com.shoppingcart.dao.OrderDAO;
 import com.shoppingcart.domain.Order;
 import com.shoppingcart.persist.PersistLayer;
 import com.shoppingcart.util.ExceptionUtils;
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class OrderDAOImpl implements OrderDAO {
 

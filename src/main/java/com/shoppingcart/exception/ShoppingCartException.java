@@ -1,4 +1,4 @@
-package com.shoppingcart.util.exception;
+package com.shoppingcart.exception;
 
 public class ShoppingCartException extends RuntimeException {
 

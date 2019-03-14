@@ -10,7 +10,7 @@ import com.shoppingcart.dao.CustomerDAO;
 import com.shoppingcart.domain.Customer;
 import com.shoppingcart.domain.Order;
 import com.shoppingcart.persist.PersistLayer;
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.exception.ShoppingCartException;
 import com.takipi.sdk.v1.api.Takipi;
 import com.takipi.sdk.v1.api.core.events.TakipiEvent;
 

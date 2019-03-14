@@ -22,12 +22,10 @@ public class ShoppingCart extends BaseDomain {
 	}
 	public void add(Product product, Integer newQuantity) {
 		if (this.productQuantityMap.containsKey(product)) {
-			Integer existingQuantity = productQuantityMap.get(product);
 			//TODO: put in some business logic and throw some exception here.
 			this.productQuantityMap.put(product, newQuantity);
 		} else {
 			this.productQuantityMap.putIfAbsent(product, newQuantity);
 		}
 	}
-	
 }

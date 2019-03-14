@@ -7,7 +7,7 @@ import com.mockData.generate.DataGenerator;
 import com.shoppingcart.dao.SkuDAO;
 import com.shoppingcart.domain.SKU;
 import com.shoppingcart.persist.PersistLayer;
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class SkuDAOImpl implements SkuDAO {
 

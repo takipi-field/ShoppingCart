@@ -9,7 +9,7 @@ import com.shoppingcart.domain.Product;
 import com.shoppingcart.persist.PersistLayer;
 import com.shoppingcart.util.ExceptionUtils;
 import com.shoppingcart.util.exception.SQLException;
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class ProductDAOImpl implements ProductDAO {
 

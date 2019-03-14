@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.mockData.generate.utils.RandomUtil;
 import com.shoppingcart.domain.Product;
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class PriceManager {
 

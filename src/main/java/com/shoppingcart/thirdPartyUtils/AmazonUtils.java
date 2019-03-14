@@ -1,7 +1,7 @@
 package com.shoppingcart.thirdPartyUtils;
 
 import com.shoppingcart.domain.SKU;
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class AmazonUtils {
 

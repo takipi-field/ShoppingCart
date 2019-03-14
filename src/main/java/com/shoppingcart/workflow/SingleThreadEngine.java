@@ -5,7 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import com.mockData.generate.utils.RandomUtil;
 import com.shoppingcart.main.SwallowedWorkflowMain;
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.domain.ShoppingCartProperties;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class SingleThreadEngine {
 	
@@ -15,9 +16,9 @@ public class SingleThreadEngine {
 	public final static Logger log = 
 		LoggerFactory.getLogger(SingleThreadEngine.class);
 
-	public SingleThreadEngine(int numberOfIterations, String runMode) {
-		this.numberOfIterations = numberOfIterations;
-		this.runMode = runMode;
+	public SingleThreadEngine(ShoppingCartProperties scProps) {
+		this.numberOfIterations = scProps.getNumberOfIterations();
+		this.runMode = scProps.getRunMode();
 	}
 	
 	public void run() {

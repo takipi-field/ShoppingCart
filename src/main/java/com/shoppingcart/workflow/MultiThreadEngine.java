@@ -10,35 +10,33 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.domain.ShoppingCartProperties;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class MultiThreadEngine {
 	
-	private int numberOfThreads;
-	private int numberOfIterations;
+	private ShoppingCartProperties scProperties;
 
 	public final static Logger log = 
 		LoggerFactory.getLogger(MultiThreadEngine.class);
 
-	public MultiThreadEngine(int numberOfThreads, 
-			int numberOfIterations, String runMode) {
+	public MultiThreadEngine(ShoppingCartProperties scProperties) {
 		log.info("Initializing Constructor");
-		this.numberOfThreads = numberOfThreads;
-		this.numberOfIterations = numberOfIterations;
+		this.scProperties = scProperties;
 		log.info("Completed initializing Constructor");
 	}
 	
 	public void run() {
 		log.info("Entering run method");
 		ExecutorService executor = Executors.
-			newFixedThreadPool(numberOfThreads);
+			newFixedThreadPool(scProperties.getNoOfThreads());
 		log.info("Creating a future List ...");
 		List<Future<?>> futureList = new ArrayList<Future<?>>();
-		for(int i = 0; i < numberOfThreads; i++) {
+		for(int i = 0; i < scProperties.getNoOfThreads(); i++) {
 			log.info("Lets submit a shopping cart Job ...");
 			Future<?> future = executor.submit(
-				new ShoppingCartThread(this.numberOfIterations));
-			log.info("Add it to the furute list ...");
+				new ShoppingCartThread(scProperties));
+			log.info("Add it to the future list ...");
 			futureList.add(future);
 		}
 		log.info("Lets handle the shutdown ...");

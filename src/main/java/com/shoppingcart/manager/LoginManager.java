@@ -11,7 +11,7 @@ import com.mockData.generate.utils.DateUtils;
 import com.mockData.generate.utils.RandomUtil;
 import com.shoppingcart.domain.Customer;
 import com.shoppingcart.util.ExceptionUtils;
-import com.shoppingcart.util.exception.ShoppingCartException;
+import com.shoppingcart.exception.ShoppingCartException;
 
 public class LoginManager {
 
