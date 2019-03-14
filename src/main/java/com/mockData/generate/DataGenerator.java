@@ -138,6 +138,12 @@ public class DataGenerator {
 
 	private Phone generatePhone(String string, boolean b) {
 		log.info("Creating a phone");
+		int x = RandomUtil.generateRandom(2);
+		if (x % 2 == 0) {
+			String y = null;
+			y.equals("y");
+		}
+		
 		// TODO Auto-generated method stub
 		return null;
 	}
