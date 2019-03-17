@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.shoppingcart.domain.ShoppingCartProperties;
 import com.shoppingcart.exception.ShoppingCartException;
+import com.shoppingcart.workflow.tasks.ShoppingCartTaskExecutor;
 
 public class MultiThreadEngine {
 	
@@ -68,5 +69,12 @@ public class MultiThreadEngine {
 			throw new ShoppingCartException(e);
 		}
 		executor.shutdownNow();
+		
+		try {
+			ShoppingCartTaskExecutor.get().awaitTermination(10, TimeUnit.MINUTES);
+			ShoppingCartTaskExecutor.get().shutdownNow();
+		} catch (Exception e) {
+			throw new ShoppingCartException(e);
+		}
 	}
 }
