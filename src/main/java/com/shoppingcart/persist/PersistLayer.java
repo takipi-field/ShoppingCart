@@ -8,18 +8,17 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mockData.generate.utils.RandomUtil;
+import com.mockdata.generate.utils.RandomUtil;
 import com.shoppingcart.domain.Customer;
 import com.shoppingcart.domain.Order;
 import com.shoppingcart.domain.Product;
 import com.shoppingcart.domain.SKU;
-import com.shoppingcart.util.ExceptionUtils;
 import com.shoppingcart.util.exception.SQLException;
 import com.shoppingcart.util.exception.SkuException;
 
 public class PersistLayer {
 
-	private final static Logger log = LoggerFactory.getLogger(PersistLayer.class);
+	private static final Logger log = LoggerFactory.getLogger(PersistLayer.class);
 
 	public boolean persist(Order order) {
 		try {
@@ -30,8 +29,7 @@ public class PersistLayer {
 			}
 			return true;
 		} catch (SQLException e) {
-			log.error(e.getMessage());
-			log.error(ExceptionUtils.convertStackTraceToString(e));
+			log.error("SQL 	Exception: {}", e.getMessage());
 			return false;
 		}
 	}
@@ -45,16 +43,12 @@ public class PersistLayer {
 	}
 	
 	public boolean updateOrder(Order order) {
-		log.info("Lets update the Order");
-		Integer id = new Integer(order.getId());
-		if (id.compareTo(new Integer(0)) > 0) {
-			return false;
-		}
+		log.info("Lets update the Order {}", order.getId());
 		log.info("Sucessfully updated Order");
 		return true;
 	}
 
-	public boolean persist(Product product) throws SQLException {
+	public boolean persist(Product product) {
 		log.info("Lets persist the product");
 		int randomNumber = RandomUtil.generateRandom(10);
 		if (randomNumber == 5) {
@@ -99,8 +93,7 @@ public class PersistLayer {
 			log.info("Completed persisting Customer");
 			return true;
 		} catch (SQLException e) {
-			log.error("An exception occured: " + e.getMessage());
-			log.error(ExceptionUtils.convertStackTraceToString(e));
+			log.error("An exception occured: {}", e);
 			return false;
 		}
 

@@ -6,7 +6,7 @@ import java.util.Map;
 public class ShoppingCart extends BaseDomain {
 
 	private Customer customer;
-	private Map<Product, Integer> productQuantityMap = new HashMap<Product, Integer>();
+	private Map<Product, Integer> productQuantityMap = new HashMap<>();
 
 	public Customer getCustomer() {
 		return customer;
@@ -22,7 +22,7 @@ public class ShoppingCart extends BaseDomain {
 	}
 	public void add(Product product, Integer newQuantity) {
 		if (this.productQuantityMap.containsKey(product)) {
-			//TODO: put in some business logic and throw some exception here.
+			//NeedToDo: put in some business logic and throw some exception here.
 			this.productQuantityMap.put(product, newQuantity);
 		} else {
 			this.productQuantityMap.putIfAbsent(product, newQuantity);

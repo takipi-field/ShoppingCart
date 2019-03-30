@@ -12,12 +12,13 @@ import org.slf4j.LoggerFactory;
 
 import com.shoppingcart.domain.ShoppingCartProperties;
 import com.shoppingcart.exception.ShoppingCartException;
+import com.shoppingcart.workflow.tasks.ShoppingCartTaskExecutor;
 
 public class MultiThreadEngine {
 	
 	private ShoppingCartProperties scProperties;
 
-	public final static Logger log = 
+	public static final Logger log = 
 		LoggerFactory.getLogger(MultiThreadEngine.class);
 
 	public MultiThreadEngine(ShoppingCartProperties scProperties) {
@@ -28,11 +29,11 @@ public class MultiThreadEngine {
 	
 	public void run() {
 		log.info("Entering run method");
-		ExecutorService executor = Executors.
-			newFixedThreadPool(scProperties.getNoOfThreads());
+		int noOfRuns = scProperties.getNoOfThreads(); 
+		ExecutorService executor = Executors.newFixedThreadPool(noOfRuns);
 		log.info("Creating a future List ...");
-		List<Future<?>> futureList = new ArrayList<Future<?>>();
-		for(int i = 0; i < scProperties.getNoOfThreads(); i++) {
+		List<Future<?>> futureList = new ArrayList<>();
+		for(int i = 0; i < noOfRuns; i++) {
 			log.info("Lets submit a shopping cart Job ...");
 			Future<?> future = executor.submit(
 				new ShoppingCartThread(scProperties));
@@ -46,27 +47,37 @@ public class MultiThreadEngine {
 
 	private void handleShutdown(ExecutorService 
 			executor, List<Future<?>> futureList) {
-		executor.shutdown();
+
 		for (Future<?> future : futureList) {
 			while (true) {
 				try {
 					//Wait for all threads to complete
+					log.info("Waiting for the executor to complete ...");
 					future.get();
 				} catch (java.util.concurrent.ExecutionException e) {
-					log.error("Exception in thread: " + e.getMessage());
-					e.printStackTrace(); 
+					log.error("Exception in thread: {}", e);
 				} catch (Exception e) {
-					log.error("Exception in thread: " + e.getMessage());
+					log.error("Exception in thread: {}", e);
 					throw new ShoppingCartException(e);
 				}
 				break;
 			}
 		}
+		log.info("Lets shutdown the executor");
+		executor.shutdown();
+
 		try {
+			log.info("Waiting for the executor to complete ...");
 			executor.awaitTermination(10, TimeUnit.MINUTES);
 		} catch (InterruptedException e) {
-			throw new ShoppingCartException(e);
+			log.error("Error occured: {}", e);
+		    Thread.currentThread().interrupt();
 		}
 		executor.shutdownNow();
+		log.info("Completed shutting down executor");
+
+		ShoppingCartTaskExecutor.getInstance(1).shutdown();
+		ShoppingCartTaskExecutor.getInstance(1).awaitTermination(10, TimeUnit.MINUTES);
+		ShoppingCartTaskExecutor.getInstance(1).shutdownNow();
 	}
 }

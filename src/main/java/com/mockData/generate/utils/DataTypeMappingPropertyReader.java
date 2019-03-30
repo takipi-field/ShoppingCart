@@ -1,7 +1,8 @@
-package com.mockData.generate.utils;
+package com.mockdata.generate.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,7 +15,7 @@ import com.shoppingcart.exception.ShoppingCartException;
 
 public class DataTypeMappingPropertyReader {
 
-	private static Map<String, List<String>> dataMappingPropertiesMap = new HashMap<String, List<String>>();
+	private static Map<String, List<String>> dataMappingPropertiesMap = new HashMap<>();
 
 	static {
         try {
@@ -51,6 +52,6 @@ public class DataTypeMappingPropertyReader {
 			String[] splitArray = string.split(separator);
 			return Arrays.asList(splitArray);
 		}
-		return null;
+		return new ArrayList<>();
 	}
 }

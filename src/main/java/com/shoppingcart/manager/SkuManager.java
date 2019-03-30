@@ -6,15 +6,15 @@ import org.slf4j.LoggerFactory;
 import com.shoppingcart.dao.SkuDAO;
 import com.shoppingcart.dao.impl.SkuDAOImpl;
 import com.shoppingcart.domain.SKU;
-import com.shoppingcart.thirdPartyUtils.AmazonUtils;
+import com.shoppingcart.thirdpartyutils.AmazonUtils;
 
 public class SkuManager {
 
-	private final static Logger log = LoggerFactory.getLogger(SkuManager.class);
+	private static final Logger log = LoggerFactory.getLogger(SkuManager.class);
 	SkuDAO skuDAO = new SkuDAOImpl();
 
 	public SKU get(String skuNumber) {
-		log.info("Getting the Sku for SkuNumber: " + skuNumber);
+		log.info("Getting the Sku for SkuNumber: {}", skuNumber);
 		return skuDAO.get(skuNumber);
 	}
 
@@ -53,10 +53,10 @@ public class SkuManager {
 				log.info("Sku Type is COLOR. Need to update it.");
 				sku.setSkuType("COLOR_INDICATOR");
 				sku.setId(new Integer(sku.getSkuNumber()));
-				log.info("New Sku Type is: " + sku.getSkuType());
+				log.info("New Sku Type is: {}", sku.getSkuType());
 			}
 		} catch (Exception e) {
-			//TODO: Handle exception when we get an incorrect SKU type
+			//NeedToDo: Handle exception when we get an incorrect SKU type
 			// For now, Swallow it ... continue.
 		}
 		log.info("Sucessfully updated the Sku");
@@ -65,25 +65,25 @@ public class SkuManager {
 
 	public void generateSkuAndChangeSkuTypeColor() {
 		try {
-			log.info("Generating new Sku");
+			log.info("Inside generateSkuAndChangeSkuTypeColor");
 			SKU sku = generate();
-			log.info("New Sku Created. Sku Type is: " + sku.getSkuType());
+			log.info("generateSkuAndChangeSkuTypeColor: New Sku Created. Sku Type is: {}", sku.getSkuType());
 			updateSkuType(sku);
 			update(sku);
 			log.info("Completed Updating sku.");
 		} catch (Exception e) {
-			//TODO: Handle exception when we get an incorrect SKU type
+			//NeedToDo: Handle exception when we get an incorrect SKU type
 			// For now, Swallow it ... continue.
 		}
 	}
 
 	public void deleteSkuManufacturer() {
-		log.info("Generating new Sku");
+		log.info("First, lets generate a new Sku");
 		SKU sku = generate();
 		sku.setSkuType("MANUFACTURER");
-		log.info("New Sku Created. Sku Type is: " + sku.getSkuType());
+		log.info("deleteSkuManufacturer: Sku Created. Type is: {}", sku.getSkuType());
 
-		log.info("Deleting the sku ...");
+		log.info("Now, lets delete the sku ...");
 		delete(sku);
 		log.info("Completed deleting sku.");
 	}
@@ -92,7 +92,7 @@ public class SkuManager {
 		log.info("Generating new Sku");
 		SKU sku = generate();
 		sku.setSkuType("MODEL");
-		log.info("New Sku Created. Sku Type is: " + sku.getSkuType());
+		log.info("New Sku Created. Sku Type is: {}", sku.getSkuType());
 
 		log.info("Deleting the sku ...");
 		updateModel(sku);

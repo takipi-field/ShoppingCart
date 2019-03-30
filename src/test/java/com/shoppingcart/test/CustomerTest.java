@@ -19,7 +19,7 @@ public class CustomerTest {
 
 	private static CustomerDAO customerDAO = null;
 	private static Customer customer = null;
-	private final static Logger log = LoggerFactory.getLogger(CustomerTest.class);
+	private static final Logger log = LoggerFactory.getLogger(CustomerTest.class);
 
 	@BeforeClass
 	static void setUpBeforeClass() throws Exception {

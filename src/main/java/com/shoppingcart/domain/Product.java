@@ -12,7 +12,7 @@ public class Product extends BaseDomain {
 	private String productCategory;
 	private String productType;
 	private long availableQuantity;
-	private List<SKU> skus = new ArrayList<SKU>();
+	private List<SKU> skus = new ArrayList<>();
 	
 	private boolean fixedPrice;
 	private double price;

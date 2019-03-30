@@ -1,13 +1,17 @@
-package com.mockData.generate.utils;
+package com.mockdata.generate.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.mockData.generate.DataTypeGenerator;
+import com.mockdata.generate.DataTypeGenerator;
 
 public class DateUtils {
 
+	private DateUtils() {
+		//Do nothing
+	}
+	
 	public static Date getNow() {
 		return Calendar.getInstance().getTime();
 	}

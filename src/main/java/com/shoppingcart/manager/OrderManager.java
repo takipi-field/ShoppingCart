@@ -1,5 +1,6 @@
 package com.shoppingcart.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ import com.shoppingcart.domain.OrderDetail;
 
 public class OrderManager {
 
-	private final static Logger log = LoggerFactory.getLogger(OrderManager.class);
+	private static final Logger log = LoggerFactory.getLogger(OrderManager.class);
 	OrderDAO orderDAO = new OrderDAOImpl();
 
 	public Order getLatestOrder(String customerNumber) {
@@ -49,13 +50,13 @@ public class OrderManager {
 	}
 	
 	public List<Order> getAllOrders(String customerNumber) {
-		log.info("Getting All the Ordes for a customer");
-		return null;
+		log.info("Getting All the Orders for a customer {}", customerNumber);
+		return new ArrayList<>();
 	}
 	
 	public List<OrderDetail> getPendingOrderDetails(String orderNumber) {
-		log.info("Getting all the pending orders for a customer");
-		return null;
+		log.info("Getting all the pending orders for a customer. OrderNumber is: {}", orderNumber);
+		return new ArrayList<>();
 	}
 	
 	public boolean completeOrder(String orderNumber) {
@@ -85,11 +86,14 @@ public class OrderManager {
 	}
 	
 	public boolean cancelOrderDetail(String orderNumber, List<OrderDetail> orderDetails) {
+		log.info("Cancel Order Detail with orderNumber {}", orderNumber);
+		log.info("OrderDetails size is: {}", orderDetails.size());
 		return false;
 	}
 
 	public void generateInvoice(Order order) {
-		//TODO: Need to generate invoice
+		log.info("Generating invoice for Order: {}", order.getId());
+		//NeedToDo: Need to generate invoice
 	}
 
 	public void update(Order order) {

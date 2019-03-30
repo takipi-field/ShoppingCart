@@ -1,10 +1,15 @@
-package com.mockData.generate;
+package com.mockdata.generate;
 
-import com.mockData.generate.utils.RandomUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.mockdata.generate.utils.RandomUtil;
 
 public class CustomerNotes {
 
-	public String[] notes = {
+	private static final Logger log = LoggerFactory.getLogger(CustomerNotes.class);
+
+	private static final String[] notes = {
 						"This is a long time customer.", 
 						"Customer had an bad experience with previous Order.",
 						"Customer has cancelled previous 3 orders",
@@ -23,11 +28,8 @@ public class CustomerNotes {
 	}
 	
 	private String getExternalNote() {
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		log.info("Trying to get an external note");
+		DelayGenerator.introduceDelay(1000);
 		return "Getting an external note from :NoteService: failed.";
 	}
 }

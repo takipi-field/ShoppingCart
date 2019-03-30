@@ -1,8 +1,8 @@
-package com.mockData.generate.utils;
+package com.mockdata.generate.utils;
 
 import java.math.BigDecimal;
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 
 import org.apache.commons.lang.math.RandomUtils;
 
@@ -11,14 +11,18 @@ import org.apache.commons.lang.math.RandomUtils;
  * 
  */
 public class RandomUtil {
-    private static Random hdrRndm = new Random();
+    private static SecureRandom hdrRndm = new SecureRandom();
 
 	/**Returns a string of randomly generate alpha numeric characters. This string
 	 * will be the length specified by the input parameter. 
 	 * @param length the total length of random characters you wish returned
 	 * @return <b>string</b> a randomly generated string of alphanumeric characters only
 	 */
-    public RandomUtil() {
+    private RandomUtil() {
+    	// 
+    }
+    
+    public static void setSeed() {
     	hdrRndm.setSeed(System.currentTimeMillis());
     }
     
@@ -29,19 +33,16 @@ public class RandomUtil {
     public static int getRandomNumberInRange(int low, int high) {
     	return hdrRndm.nextInt(high-low) + low;
     }
-    
-   
 
     public static int generateRandom(int length){
-    	int value = hdrRndm.nextInt(length);
-		return value;
+    	return hdrRndm.nextInt(length);
     }
     
-    public static BigDecimal generateRandomDecimal(int Length){
-    	if(Length == 0){
+    public static BigDecimal generateRandomDecimal(int length){
+    	if(length == 0){
     		return null;
     	}
-    	String sNums = generateRandomNumericString(Length);
+    	String sNums = generateRandomNumericString(length);
     	String sNums2 = generateRandomNumericString(2);
     	sNums = sNums + "." + sNums2;
     	return new BigDecimal(sNums);
@@ -54,67 +55,54 @@ public class RandomUtil {
     	String sNums = generateRandomNumericString(length);
     	return new Long(sNums);
     }
-    public static String generateRandomAlphaString(int StringLength){
-    	if(StringLength == 0){
+    public static String generateRandomAlphaString(int strlength){
+    	if(strlength == 0){
     		return null;
     	}
-    	StringBuffer returnVal = new StringBuffer();
+    	StringBuilder returnVal = new StringBuilder();
     	String[] vals = {"a","b","c","d","e","f","g","h","i","j","k","l","m",
     			"n","o","p","q","r","s","t","u","v","w","x","y","z"};
-    	for(int lp = 0;lp < StringLength; lp++){
+    	for(int lp = 0;lp < strlength; lp++){
     		returnVal.append(vals[generateRandom(26)]);
     	}
     	return returnVal.toString();
     }
-    public static String generateRandomText(int StringLength){
-    	if(StringLength == 0){
+    public static String generateRandomNumericString(int strlength) {
+    	if(strlength == 0){
     		return null;
     	}
-    	StringBuffer returnVal = new StringBuffer();
-    	String[] vals = {"a","b","c","d","e","f","g","h","i","j",
-    			"k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
-    	for(int lp = 0;lp < StringLength; lp++){
-    		returnVal.append(vals[generateRandom(26)]);
-    	}
-    	return returnVal.toString();
-    }
-    public static String generateRandomNumericString(int StringLength) {
-    	if(StringLength == 0){
-    		return null;
-    	}
-    	StringBuffer returnVal = new StringBuffer();
+    	StringBuilder returnVal = new StringBuilder();
     	String[] vals = {"1","2","3","4","5","6","7","8","9", "0"};
-    	for(int lp = 0;lp < StringLength; lp++){
+    	for(int lp = 0;lp < strlength; lp++){
     		returnVal.append(vals[generateRandom(10)]);
     	}
     	return returnVal.toString();
     }
     
-    public static Integer generateRandomNumbers(int Length){
-    	if(Length == 0){
+    public static Integer generateRandomNumbers(int length){
+    	if(length == 0){
     		return null;
     	}
-    	String sNums = generateRandomNumericString(Length);
+    	String sNums = generateRandomNumericString(length);
     	return new Integer(sNums);
     }
     
     public static Object getRandomObjectFromList(@SuppressWarnings("rawtypes") List objList){
-		if (objList == null || objList.size() == 0) {
+		if (objList == null || objList.isEmpty()) {
 			return null;
 		} else if (objList.size() == 1) {
 			return objList.get(0);
 		}
 		int lGetObjIndex = generateRandom(objList.size());
-		return (Object) objList.get(lGetObjIndex);
+		return objList.get(lGetObjIndex);
     }
     public static String getAlphaNumericRandom(int length) {
-		Random generator = new Random();
 		String[] mapOfCharacters = getCharacterMap();
-		StringBuffer sRandomString = new StringBuffer();
+    	StringBuilder sRandomString = new StringBuilder();
 
 		// Now lets return the number of characters requested
 		for (int j = 0; j < length; j++) {
-			int rndm = generator.nextInt(61) + 0;
+			int rndm = hdrRndm.nextInt(61) + 0;
 			String sItem = mapOfCharacters[rndm];
 			sRandomString.append(sItem);
 		}
@@ -129,7 +117,7 @@ public class RandomUtil {
 		for (int i = 0; i < 62; i++) {
 			if (i < 10) {
 				// numbers zero through 9
-				universeValues[i] = new Integer(i).toString();
+				universeValues[i] = Integer.toString(i);
 			} else {
 				universeValues[i] = Character.toString((char) asciiAlpha);
 				// 91 - 96 are not alpha characters in the ascii map
@@ -144,7 +132,6 @@ public class RandomUtil {
 	}
 
 	public static String generateRandomSSN() {
-		String ssn = generateRandom(999) + "-" + generateRandom(99) + "-" + generateRandom(9999);
-		return ssn;
+		return generateRandom(999) + "-" + generateRandom(99) + "-" + generateRandom(9999);
 	}
 }

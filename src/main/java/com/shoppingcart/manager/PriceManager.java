@@ -9,13 +9,13 @@ import javax.sql.PooledConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mockData.generate.utils.RandomUtil;
+import com.mockdata.generate.utils.RandomUtil;
 import com.shoppingcart.domain.Product;
 import com.shoppingcart.exception.ShoppingCartException;
 
 public class PriceManager {
 
-	private final static Logger log = LoggerFactory.getLogger(PriceManager.class);
+	private static final Logger log = LoggerFactory.getLogger(PriceManager.class);
 	private PooledConnection connectString = null;
 
 	public double getPrice() {
@@ -25,7 +25,7 @@ public class PriceManager {
 			return new Double("$56.50");
 		}
 		log.info("Returning the price ...");
-		return new Double(RandomUtil.generateRandomDecimal(3).doubleValue());
+		return RandomUtil.generateRandomDecimal(3).doubleValue();
 	}
 
 	public Object getVariablePrice(Product product) {
@@ -35,14 +35,15 @@ public class PriceManager {
 			if (randomNumber == 7) {
 				//Product type is an external product - try and get it.
 				Connection conn = (Connection) new ConnectionEvent(connectString);
-				Statement stmnt = conn.createStatement();
-				stmnt.executeQuery("select price from priceTable where productId = " + product.getId());
+				try (Statement stmnt = conn.createStatement()) {
+					stmnt.executeQuery("select price from priceTable where productId = " + product.getId());
+				}
 			}
 			log.info("Executed query to get the variable price ...");
 			if (randomNumber  == 8) {
 				return "$45.50";
 			}
-			return new Double(RandomUtil.generateRandomDecimal(10).doubleValue());
+			return RandomUtil.generateRandomDecimal(10).doubleValue();
 		} catch (Exception e) {
 			throw new ShoppingCartException("Error in getting variable price");
 		}

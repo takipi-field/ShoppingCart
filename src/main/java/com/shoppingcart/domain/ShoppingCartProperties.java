@@ -11,7 +11,7 @@ public class ShoppingCartProperties extends BaseDomain {
 	private boolean continueRunning = false;
 	private int waitTime;
 
-	private final static Logger log = LoggerFactory.getLogger(ShoppingCartProperties.class);
+	private static final Logger log = LoggerFactory.getLogger(ShoppingCartProperties.class);
 
 	public int getNoOfThreads() {
 		return noOfThreads;
@@ -20,6 +20,9 @@ public class ShoppingCartProperties extends BaseDomain {
 		this.noOfThreads = noOfThreads;
 	}
 	public int getNumberOfIterations() {
+		if (isContinueRunning()) {
+			numberOfIterations = Integer.MAX_VALUE;
+		}
 		return numberOfIterations;
 	}
 	public void setNumberOfIterations(int numberOfIterations) {
@@ -45,11 +48,11 @@ public class ShoppingCartProperties extends BaseDomain {
 	}
 	
 	public void print() {
-		log.info("No of threads is: " + noOfThreads);
-		log.info("No of iterations is: " + numberOfIterations);
-		log.info("RunMode is: " + runMode);
-		log.info("Continue Running is: " + continueRunning);
-		log.info("Wait Time is: " + waitTime);
+		log.info("No of threads is: {}", noOfThreads);
+		log.info("No of iterations is: {}", numberOfIterations);
+		log.info("RunMode is: {}", runMode);
+		log.info("Continue Running is: {}", continueRunning);
+		log.info("Wait Time is: {}", waitTime);
 	}
 
 	public boolean runMultiThreadEngine() {
@@ -57,6 +60,7 @@ public class ShoppingCartProperties extends BaseDomain {
 				!runMode.equalsIgnoreCase("SWALLOWED_EXCEPTION")) {
 			return true;
 		}
+		log.info("RunMode is: {}", runMode);
 		return false;
 	}
 }

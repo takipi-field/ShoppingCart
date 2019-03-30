@@ -27,13 +27,11 @@ public class CreditCard extends BaseDomain {
 	}
 	
 	public boolean isValid() {
-		boolean valid =
+		return
 			(getSize(cardNumber) >= 13 && getSize(cardNumber) <= 16) &&
 			(prefixMatched(cardNumber, 4) || prefixMatched(cardNumber, 5) ||
 			prefixMatched(cardNumber, 37) || prefixMatched(cardNumber, 6)) &&
 			((sumOfDoubleEvenPlace(cardNumber) + sumOfOddPlace(cardNumber)) % 10 == 0);
-
-		return valid;
 	}
 	
 	/** Get the result from Step 2 */

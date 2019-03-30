@@ -1,24 +1,23 @@
 package com.shoppingcart.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mockData.generate.DataGenerator;
+import com.mockdata.generate.DataGenerator;
 import com.shoppingcart.dao.CustomerDAO;
 import com.shoppingcart.domain.Customer;
 import com.shoppingcart.domain.Order;
-import com.shoppingcart.persist.PersistLayer;
 import com.shoppingcart.exception.ShoppingCartException;
-import com.takipi.sdk.v1.api.Takipi;
-import com.takipi.sdk.v1.api.core.events.TakipiEvent;
+import com.shoppingcart.persist.PersistLayer;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
 	private DataGenerator dataGenerator = new DataGenerator();
 	private PersistLayer persistLayer = new PersistLayer();
-	private final static Logger log = LoggerFactory.getLogger(CustomerDAOImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(CustomerDAOImpl.class);
 
 
 	@Override
@@ -26,34 +25,24 @@ public class CustomerDAOImpl implements CustomerDAO {
 		try {
 			log.info("Trying to get the Order by customerNumber");
 			Customer customer = dataGenerator.generateCustomer(customerNumber);
-			log.info("Found the customer");
+			log.info("Found the customer: {}", customer.getAccountNumber());
 			return customer;
 		} catch (Exception e) {
-			log.error("Unable to create customer");
+			log.error("Unable to get customer - getByCustomerNumber: {}", customerNumber);
 			throw new ShoppingCartException(e);
 		}
 	}
 
 	public Customer create(String customerNumber) {
 		try {
-			log.info("Creating the customer");
-		    Takipi takipi1 = Takipi.create("NewCustomerEvent: " + customerNumber);
-            TakipiEvent customEvent1 = takipi1.events().createEvent("CustomEvent: Creating a new Customer with CustomerNumber: " + customerNumber);
-            customEvent1.fire();
-            log.info("Creating a new Customer with CustomerNumber: " + customerNumber);
-            
+			log.info("Creating the customer with CustomerNumber {}", customerNumber);
 			Customer customer = dataGenerator.createCustomer(customerNumber);
-
-		    Takipi takipi2 = Takipi.create("CustomerCreatedEvent: " + customerNumber);    
-            TakipiEvent customEvent2 = takipi2.events().createEvent("CustomEvent: Sucessfully created a new Customer with CustomerNumber: " + customerNumber);
-            customEvent2.fire();
-
-			log.info("Completed creating the customer");
+			log.info("Completed creating the customer with CustomerNumber {}", customerNumber);
             return customer;
 		} catch (Exception e) {
-			log.error("Unable to create customer");
-			throw new ShoppingCartException(e);
+			log.error("Unable to create customer using customerNumber: {}", customerNumber, e);
 		}
+		throw new ShoppingCartException("Unable to create customer with CustomerNumber " + customerNumber);
 	}
 
 	@Override
@@ -62,10 +51,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 			log.info("Creating a customer");
 			return dataGenerator.createCustomer1();
 		} catch (Exception e) {
-			log.error("Unable to create customer");
-			throw new ShoppingCartException(e);
+			log.error("Unable to create customer", e);
 		}
+		throw new ShoppingCartException("Unable to create customer");
 	}
+
 
 	@Override
 	public Customer update(Customer customer) {
@@ -87,19 +77,22 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	@Override
 	public List<Order> getAllOrders(String customerNumber) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("Getting All Orders by customerNumber: {}", customerNumber);
+		// NeedToDo - complete this method
+		return new ArrayList<>();
 	}
 
 	@Override
 	public Customer getById(int id) {
-		// TODO Auto-generated method stub
+		log.info("Getting All Orders by ID: {}", id);
+		// NeedToDo - complete this method
 		return null;
 	}
 
 	@Override
 	public Customer find(String customerNumber) {
-		// TODO Auto-generated method stub
+		log.info("Finding All Orders by customerNumber: {}", customerNumber);
+		// NeedToDo - complete this method
 		return null;
 	}
 }

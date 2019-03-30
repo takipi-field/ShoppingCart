@@ -5,19 +5,18 @@ import java.text.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mockData.generate.DataGenerator;
-import com.mockData.generate.utils.DateUtils;
-import com.mockData.generate.utils.RandomUtil;
+import com.mockdata.generate.DataGenerator;
+import com.mockdata.generate.utils.DateUtils;
+import com.mockdata.generate.utils.RandomUtil;
 import com.shoppingcart.dao.OrderDAO;
 import com.shoppingcart.domain.Order;
-import com.shoppingcart.persist.PersistLayer;
-import com.shoppingcart.util.ExceptionUtils;
 import com.shoppingcart.exception.ShoppingCartException;
+import com.shoppingcart.persist.PersistLayer;
 
 public class OrderDAOImpl implements OrderDAO {
 
 	private DataGenerator dataGenerator = new DataGenerator();
-	private final static Logger log = LoggerFactory.getLogger(OrderDAOImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(OrderDAOImpl.class);
 	private PersistLayer persistLayer = new PersistLayer();
 
 	@Override
@@ -40,11 +39,11 @@ public class OrderDAOImpl implements OrderDAO {
 		int randomNo = RandomUtil.getRandomNumberInRange(1, 2);
 		Order order;
 		switch (randomNo) {
-			case 1: order = dataGenerator.generateOrder1(orderNumber);
-			case 2: order = dataGenerator.generateOrder2(orderNumber);
+			case 1: order = dataGenerator.generateOrder1(orderNumber);break;
+			case 2: order = dataGenerator.generateOrder2(orderNumber);break;
 			default: order = null;
 		}
-		log.info("Retiurning an Order");
+		log.info("Returning an Order");
 		return order;
 	}
 
@@ -68,7 +67,7 @@ public class OrderDAOImpl implements OrderDAO {
 			order.setLastUpdated(DateUtils.getNow());
 			log.info("Completed updating the Order Date");
 		} catch (ParseException e) {
-			log.error("An exception occured: " + ExceptionUtils.convertStackTraceToString(e));
+			log.error("An exception occured: {}", e.getMessage());
 		}
 	}
 

@@ -6,43 +6,45 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.shoppingcart.exception.ShoppingCartException;
-
 public class ShoppingCartPropertyReader {
 
-	private final static Logger logger = 
+	private static final Logger log = 
 		LoggerFactory.getLogger(ShoppingCartPropertyReader.class);
 
-	private static Properties properties = null;
-	private static final String propertiesFile = "/ShoppingCart.properties";
+	private static Properties prop = null;
+	private static final String PROPERTIESFILE = "/ShoppingCart.properties";
 	
 	//Private Constructor to avoid initiation
 	private ShoppingCartPropertyReader() {
     }
 
 	public static Properties getInstance() {
-		if (properties == null) {
+		if (prop == null) {
 			init();
 		}
-		return properties;
+		return prop;
 	}
 
 	private static void init() {
-		InputStream inputStream = null;
+		InputStream inStream = null;
 		try {
-			logger.info("Loading properties from file: " + propertiesFile);
-			inputStream = ShoppingCartPropertyReader.class.getResourceAsStream(propertiesFile);
-			properties = new Properties();
-			properties.load(inputStream);
+			log.info("Loading properties from file: {}", PROPERTIESFILE);
+			inStream = ShoppingCartPropertyReader.class.getResourceAsStream(PROPERTIESFILE);
+			prop = new Properties();
+			log.info("Now lets load the properties");
+			prop.load(inStream);
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ShoppingCartException(e);
+			log.error("Exception in thread: {}", e);
+			log.error(e.getMessage());
 		}
 		finally {
 			try {
-				inputStream.close();
+				if (inStream != null) {
+					log.info("Closing the input Stream");
+					inStream.close();
+				}
 			} catch (Exception e) {
-				throw new ShoppingCartException(e);
+				log.error("An error occured: {}", e.getMessage());
 			}
 		}
 	}

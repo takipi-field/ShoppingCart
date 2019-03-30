@@ -7,8 +7,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mockData.generate.utils.DateUtils;
-import com.mockData.generate.utils.RandomUtil;
+import com.mockdata.generate.utils.DateUtils;
+import com.mockdata.generate.utils.RandomUtil;
 import com.shoppingcart.domain.Customer;
 import com.shoppingcart.domain.Order;
 import com.shoppingcart.domain.OrderDetail;
@@ -23,13 +23,14 @@ import com.shoppingcart.util.FileReader;
 
 public class ShoppingCartWF {
 
-	private final static Logger log = LoggerFactory.getLogger(ShoppingCartWF.class);
-	private 	CustomerManager custMgr = new CustomerManager();
+	private static final Logger log = LoggerFactory.getLogger(ShoppingCartWF.class);
+	private CustomerManager custMgr = new CustomerManager();
 	private ProductManager productMgr = new ProductManager();
 	private SkuManager skewMgr = new SkuManager();
 	private OrderManager orderMgr = new OrderManager();
 	
 	public ShoppingCartWF() {
+		//Do nothing
 	}
 
 	/*
@@ -40,14 +41,14 @@ public class ShoppingCartWF {
 	
 		log.info("Creating a customer ...");
 		Customer customer = custMgr.create();		
-		log.info("Customer Name is: " + customer.getFirstName() + " " + customer.getLastName());
+		log.info("WorkFlow1: Customer Name is: {} {} ", customer.getFirstName() , customer.getLastName());
 
 		log.info("Customer logs into account");
 		LoginManager loginManager = new LoginManager(customer);
 		loginManager.login();
 		log.info("Customer login successfull");
 		
-		log.info("Creating a shopping cart for customer: " + customer.getAccountNumber());
+		log.info("Creating a shopping cart for customer: {}", customer.getAccountNumber());
 		ShoppingCartManager cart = new ShoppingCartManager(customer);
 		log.info("Completed creating shopping cart for customer");
 
@@ -79,7 +80,8 @@ public class ShoppingCartWF {
 
 		log.info("Creating a customer ...");
 		Customer customer = custMgr.create();		
-		log.info("Customer Name is: " + customer.getFirstName() + " " + customer.getLastName());
+		log.info("Workflow2: Customer Name is: {} {} ", customer.getFirstName() , customer.getLastName());
+		log.info("Workflow2: Customer Number is: {} ", customer.getAccountNumber());
 		
 		//Setting customer to inactive
 		log.info("Setting customer to inactive.");
@@ -96,10 +98,12 @@ public class ShoppingCartWF {
 		log.info("Initiating ShoppingCart Workflow3 ...");
 
 		log.info("Finding an existing customer ...");
-		Customer customer = custMgr.get("CUST1003");	
-		log.info("Customer Name is: " + customer.getFirstName() + " " + customer.getLastName());
+		RandomUtil.setSeed();
+		String customerNumber = "CUST" + RandomUtil.generateRandomNumbers(4);
+		Customer customer = custMgr.get(customerNumber);	
+		log.info("Workflow3: Customer Name is: {} {} ", customer.getFirstName() , customer.getLastName());
 		
-		log.info("Deleting Customer: " + customer.getAccountNumber());
+		log.info("Deleting Customer: {}", customer.getAccountNumber());
 		custMgr.delete(customer);
 		log.info("Customer successfully deleted.");
 	}
@@ -111,10 +115,13 @@ public class ShoppingCartWF {
 		log.info("Initiating ShoppingCart Workflow4 ...");
 		
 		log.info("Finding an existing order ...");
-		Customer customer = custMgr.get("CUST1003");	
+		RandomUtil.setSeed();
+		String customerNumber = RandomUtil.generateRandomAlphaString(3) + RandomUtil.generateRandomNumbers(4);
+		Customer customer = custMgr.get(customerNumber);	
 
-		Order order = orderMgr.get("ORD352035", customer.getAccountNumber());	
-		log.info("Successfully received order: " + order.getOrderNumber());
+		String orderNumber = "ORD" + RandomUtil.generateRandomNumbers(4);
+		Order order = orderMgr.get(orderNumber, customer.getAccountNumber());	
+		log.info("workflow4: Sucessfully received order: {}", order.getOrderNumber());
 		
 		log.info("Updating order date");
 		orderMgr.updateOrderDate(order, DateUtils.getRandomDateString(7));
@@ -128,11 +135,14 @@ public class ShoppingCartWF {
 		log.info("Initiating ShoppingCart Workflow5 ...");
 		
 		log.info("Get the customer for an existing order ...");
-		Order order = orderMgr.get("ORD352035");	
-		log.info("Successfully received order: " + order.getOrderNumber());
+		RandomUtil.setSeed();
+		String orderNumber = "ORD" + RandomUtil.generateRandomNumbers(4);
+
+		Order order = orderMgr.get(orderNumber);	
+		log.info("workflow5: Received order: {}", order.getOrderNumber());
 
 		Customer customer = order.getCustomer();
-		log.info("Customer Name is: " + customer.getFirstName() + " " + customer.getLastName());
+		log.info("Workflow5: Customer Name is: {} {} ", customer.getFirstName() , customer.getLastName());
 	}		
 
 	/*
@@ -142,13 +152,17 @@ public class ShoppingCartWF {
 		log.info("Initiating ShoppingCart Workflow6 ...");
 		
 		log.info("Find Status of existing order ...");
-		Order order = orderMgr.get("ORD335035");	
-		log.info("Successfully received order: " + order.getOrderNumber());
+
+		RandomUtil.setSeed();
+		String orderNumber = "ORD" + RandomUtil.generateRandomNumbers(4);
+
+		Order order = orderMgr.get(orderNumber);	
+		log.info("workflow6: Sucessfully got order number : {}", order.getOrderNumber());
 
 		List<OrderDetail> orderDetails = order.getOrderDetailsList();
 		for (OrderDetail orderDetail : orderDetails) {
-			log.info("Product is: " + orderDetail.getProduct().getProductName());			
-			log.info("OrderDetail shipped date is: " + orderDetail.getShippedDate());
+			log.info("Product is: {}", orderDetail.getProduct().getProductName());			
+			log.info("OrderDetail shipped date is: {}", orderDetail.getShippedDate());
 		}		
 	}
 
@@ -159,7 +173,10 @@ public class ShoppingCartWF {
 		log.info("Initiating ShoppingCart Workflow7 ...");
 
 		log.info("Get the existing order ...");
-		Order order = orderMgr.get("ORD335035");
+		
+		RandomUtil.setSeed();
+		String orderNumber = "ORD" + RandomUtil.generateRandomNumbers(4);
+		Order order = orderMgr.get(orderNumber);
 		
 		log.info("Get the Order status from an external file.");
 		List<String> contents = FileReader.get("OrderStatus.txt");
@@ -169,29 +186,32 @@ public class ShoppingCartWF {
 	}
 
 	/*
-	 * UpdateOrderShipped date for existing order;
+	 * Workflow8 - UpdateOrderShipped date for existing order
 	 */
 	public void workflow8() throws ParseException {
 		log.info("Initiating ShoppingCart Workflow8 ...");
 		
 		log.info("Find Status of existing order ...");
-		Order order = orderMgr.get("ORD224525");	
-		log.info("Successfully received order: " + order.getOrderNumber());
+		
+		RandomUtil.setSeed();
+		String orderNumber = "ORD" + RandomUtil.generateRandomNumbers(5);
+		Order order = orderMgr.get(orderNumber);
+		log.info("workflow8: Sucessfully found order no: {}", order.getOrderNumber());
 
 		List<OrderDetail> orderDetails = order.getOrderDetailsList();
 		for (OrderDetail orderDetail : orderDetails) {
-			log.info("Product is: " + orderDetail.getProduct().getProductName());
+			log.info("Product is: {}", orderDetail.getProduct().getProductName());
 			String dateStr = DateUtils.getRandomDateString(7);
 			
 			SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 			orderDetail.setShippedDate(format.parse(dateStr));
-			log.info("Updated shipped date for orderDetail: " + orderDetail.getOrderDetailNumber());
+			log.info("Updated shipped date for orderDetail: {}", orderDetail.getOrderDetailNumber());
 		}
 		orderMgr.update(order);
 	}
-	
+
 	/*
-	 * Create new product, skew combination
+	 * Workflow9 - Create new product, skew combination
 	 */
 	public void workflow9() {
 		log.info("Initiating ShoppingCart Workflow9 ...");
@@ -212,7 +232,7 @@ public class ShoppingCartWF {
 	}
 
 	/*
-	 * Create new skew. If the SkewType is COLOR, change it to COLOR_INDICATOR. Update it
+	 * Workflow 10 - Create new skew. If the SkewType is COLOR, change it to COLOR_INDICATOR. Update it
 	 */
 	public void workflow10() {
 		log.info("Initiating ShoppingCart Workflow10 ...");
@@ -221,10 +241,10 @@ public class ShoppingCartWF {
 
 	public void workflow11() {
 		log.info("Initiating ShoppingCart Workflow11 ...");
-		String customerNumber = "CUST1004";
+		String customerNumber = "CUST" + RandomUtil.generateRandomNumbers(4);
 		Customer customer = custMgr.find(customerNumber);
 		if (customer == null) {
-			log.info("Could not find the customer with customerNumber: " + customerNumber);
+			log.info("Could not find the customer with customerNumber: {}", customerNumber);
 			//Could not find a customer, lets create an Overops Event to remind us.
 			custMgr.create(customerNumber);
 		}

@@ -6,15 +6,13 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.shoppingcart.exception.ShoppingCartException;
-
 public class ExceptionListReader {
 
-	private final static Logger logger = 
+	private static final Logger log = 
 		LoggerFactory.getLogger(ExceptionListReader.class);
 
 	private static Properties properties = null;
-	private static final String propertiesFile = "/ExceptionList.properties";
+	private static final String PROPFILE = "/ExceptionList.properties";
 	
 	//Private Constructor to avoid initiation
 	private ExceptionListReader() {
@@ -30,19 +28,20 @@ public class ExceptionListReader {
 	private static void init() {
 		InputStream inputStream = null;
 		try {
-			logger.info("Loading properties from file: " + propertiesFile);
-			inputStream = ExceptionListReader.class.getResourceAsStream(propertiesFile);
+			log.info("Loading properties from file: " + PROPFILE);
+			inputStream = ExceptionListReader.class.getResourceAsStream(PROPFILE);
 			properties = new Properties();
 			properties.load(inputStream);
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ShoppingCartException(e);
+			log.error("An exception occured: {}", e);
 		}
 		finally {
 			try {
-				inputStream.close();
+				if (inputStream != null) {
+					inputStream.close();
+				}
 			} catch (Exception e) {
-				throw new ShoppingCartException(e);
+				log.error("An exception occured {}", e.getMessage());
 			}
 		}
 	}

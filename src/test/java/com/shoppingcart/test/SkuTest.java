@@ -19,7 +19,7 @@ public class SkuTest {
 
 	private static SkuDAO skuDAO = null;
 	private static SKU sku = null;
-	private final static Logger log = LoggerFactory.getLogger(SkuTest.class);
+	private static final Logger log = LoggerFactory.getLogger(SkuTest.class);
 
 	@BeforeClass
 	static void setUpBeforeClass() throws Exception {

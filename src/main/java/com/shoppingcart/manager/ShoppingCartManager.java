@@ -5,8 +5,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mockData.generate.utils.DateUtils;
-import com.mockData.generate.utils.RandomUtil;
+import com.mockdata.generate.DelayGenerator;
+import com.mockdata.generate.utils.DateUtils;
+import com.mockdata.generate.utils.RandomUtil;
 import com.shoppingcart.domain.Customer;
 import com.shoppingcart.domain.Order;
 import com.shoppingcart.domain.OrderDetail;
@@ -16,7 +17,7 @@ import com.shoppingcart.util.exception.CustomerInActiveException;
 
 public class ShoppingCartManager {
 
-	private final static Logger log = LoggerFactory.getLogger(ShoppingCartManager.class);
+	private static final Logger log = LoggerFactory.getLogger(ShoppingCartManager.class);
 	private ShoppingCart cart = new ShoppingCart();
 	
 	public ShoppingCartManager(Customer customer) {
@@ -25,9 +26,9 @@ public class ShoppingCartManager {
 	}
 
 	public void add(Product product, int quantity) {
-		log.info("Adding a product with quantity: " + quantity);
+		log.info("Adding a product with quantity: {}", quantity);
 		this.cart.add(product, quantity);
-		log.info("Completed adding a product with quantity: " + quantity);
+		log.info("Completed adding a product with quantity: {}", quantity);
 	}
 
 	public Order checkout() {
@@ -46,6 +47,7 @@ public class ShoppingCartManager {
 		order.setOrderComplete(true);
 		
 		log.info("Completing the Order ...");
+		DelayGenerator.generateRandomDelay();
 		return order;
 	}
 
@@ -60,6 +62,7 @@ public class ShoppingCartManager {
 		log.info("Adding OrderDetail to the order ...");
 		order.add(orderDetail);
 		log.info("Completed adding OrderDetail to the order");
+		DelayGenerator.generateRandomDelay();
 	}
 
 	public void validate() {
@@ -69,5 +72,6 @@ public class ShoppingCartManager {
 			throw new CustomerInActiveException("Cannot create an order for an inactive customer: Customer is: " + customer.getAccountNumber());
 		}
 		log.info("Completed validating Order");
+		DelayGenerator.generateRandomDelay();
 	}
 }
