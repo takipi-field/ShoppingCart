@@ -48,6 +48,30 @@ public class MultiThreadEngine {
 	private void handleShutdown(ExecutorService 
 			executor, List<Future<?>> futureList) {
 
+		handleFutures(futureList);
+		shutdownExecutor(executor);
+
+		ShoppingCartTaskExecutor.getInstance(1).shutdown();
+		ShoppingCartTaskExecutor.getInstance(1).awaitTermination(10, TimeUnit.MINUTES);
+		ShoppingCartTaskExecutor.getInstance(1).shutdownNow();
+	}
+
+	private void shutdownExecutor(ExecutorService executor) {
+		log.info("Lets shutdown the executor");
+		executor.shutdown();
+
+		try {
+			log.info("Waiting for the executor to complete ...");
+			executor.awaitTermination(10, TimeUnit.MINUTES);
+		} catch (InterruptedException e) {
+			log.error("Error occured: {}", e);
+		    Thread.currentThread().interrupt();
+		}
+		executor.shutdownNow();
+		log.info("Completed shutting down executor");
+	}
+
+	private void handleFutures(List<Future<?>> futureList) {
 		for (Future<?> future : futureList) {
 			while (true) {
 				try {
@@ -63,21 +87,5 @@ public class MultiThreadEngine {
 				break;
 			}
 		}
-		log.info("Lets shutdown the executor");
-		executor.shutdown();
-
-		try {
-			log.info("Waiting for the executor to complete ...");
-			executor.awaitTermination(10, TimeUnit.MINUTES);
-		} catch (InterruptedException e) {
-			log.error("Error occured: {}", e);
-		    Thread.currentThread().interrupt();
-		}
-		executor.shutdownNow();
-		log.info("Completed shutting down executor");
-
-		ShoppingCartTaskExecutor.getInstance(1).shutdown();
-		ShoppingCartTaskExecutor.getInstance(1).awaitTermination(10, TimeUnit.MINUTES);
-		ShoppingCartTaskExecutor.getInstance(1).shutdownNow();
 	}
 }

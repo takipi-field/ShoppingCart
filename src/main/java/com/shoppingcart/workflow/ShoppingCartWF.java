@@ -19,6 +19,7 @@ import com.shoppingcart.manager.OrderManager;
 import com.shoppingcart.manager.ProductManager;
 import com.shoppingcart.manager.ShoppingCartManager;
 import com.shoppingcart.manager.SkuManager;
+import com.shoppingcart.thirdpartyutils.AmazonUtils;
 import com.shoppingcart.util.FileReader;
 
 public class ShoppingCartWF {
@@ -248,5 +249,13 @@ public class ShoppingCartWF {
 			//Could not find a customer, lets create an Overops Event to remind us.
 			custMgr.create(customerNumber);
 		}
+	}
+	
+	public void workflow12() {
+		log.info("Connecting to Amazon ...");
+		AmazonUtils.connect();
+		Product product = productMgr.generateProductWithSku();
+
+		AmazonUtils.validateProduct(product);
 	}
 }

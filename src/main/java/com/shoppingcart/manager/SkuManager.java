@@ -30,9 +30,7 @@ public class SkuManager {
 	
 	public void updateModel(SKU sku) {
 		log.info("Updating a Model.");
-		String connection = AmazonUtils.connect();
-		log.info("Connecting to Amazon ...");
-		String skuType = AmazonUtils.getSkuType(connection, sku);
+		String skuType = AmazonUtils.getSkuType(sku);
 		log.info("Getting SkuType from Amazon");
 		sku.setSkuType(skuType);
 		log.info("Updating SkuType");

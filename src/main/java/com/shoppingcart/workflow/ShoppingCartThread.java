@@ -1,6 +1,5 @@
 package com.shoppingcart.workflow;
 
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -12,14 +11,14 @@ import org.slf4j.LoggerFactory;
 import com.mockdata.generate.DelayGenerator;
 import com.shoppingcart.domain.ShoppingCartProperties;
 import com.shoppingcart.exception.ShoppingCartException;
-import com.shoppingcart.workflow.tasks.ShoppingCartTask5;
+import com.shoppingcart.workflow.tasks.ShoppingCartTask;
 import com.shoppingcart.workflow.tasks.ShoppingCartTaskExecutor;
 
 public class ShoppingCartThread implements Callable<Object> {
 
 	private static final Logger log = LoggerFactory.getLogger(ShoppingCartThread.class);
-	private static AtomicLong count = new AtomicLong(0);
 	private ShoppingCartProperties scProperties;
+	private static AtomicLong dummyCount = new AtomicLong(0);
 
 	public ShoppingCartThread(ShoppingCartProperties scProperties) {
 		log.info("In the constructor");
@@ -29,50 +28,51 @@ public class ShoppingCartThread implements Callable<Object> {
 	
 	@Override
 	public Object call() throws Exception {
-		log.info("No of iterations is: {} ", scProperties.getNumberOfIterations());
-		log.info("No of threads is {}", scProperties.getNoOfThreads());
-		
 		int noOfLoops = scProperties.getNumberOfIterations();
-		while (count.incrementAndGet() <= noOfLoops) {
+		int count = 0;
+		while (count <= noOfLoops) {
+			Future<?> future = null;
 			try {
+				dummyCount.incrementAndGet();
 				ShoppingCartTaskExecutor executor = ShoppingCartTaskExecutor.getInstance(1);
-				log.info("In ShoppingCartThread: Thread Number is {}", count);
-				executor.execute(new ShoppingCartTask5(scProperties));
-				int waitTime = scProperties.getWaitTime();
-				if (waitTime != 0) {
-					log.info("Waiting for {} seconds between iterations ....", waitTime/1000);
-					DelayGenerator.introduceDelay(waitTime);
-				}
+				String threadName = Thread.currentThread().getName();
+				log.info("In ShoppingCartThread: ThreadName is {}", threadName);
+				
+				future = executor.submit(new ShoppingCartTask(scProperties, threadName));
+				letsWaitFor10seconds();
+
 			} catch (Exception e) {
 				log.error("Exception in executing workflows {}", e.getMessage());
+			} finally {
+				count++;
+				handleFuture(future);
 			}
 		}
 		log.info("Lets shut down ShoppingCartThreads executor");
-//		handleShutdown(executor, futureList);
-//		shutdownExecutor(executor);
-//		waitForFutures(futureList);
 		log.info("Completed handling ShoppingCartThreads shutdown ...");
 
 		return null;
 	}
-	
-	public void handleShutdown(ShoppingCartTaskExecutor 
-			executor, List<Future<?>> futureList) {
-		waitForFutures(futureList);
-		shutdownExecutor(executor);
-	}
 
-	private void waitForFutures(List<Future<?>> futureList) {
-		for (Future<?> future : futureList) {
+	private void letsWaitFor10seconds() {
+		int waitTime = scProperties.getWaitTime();
+		if (waitTime != 0) {
+			log.info("Waiting for {} seconds between shopping cart thread iterations ....", waitTime/(1000));
+			DelayGenerator.introduceDelay(waitTime);
+		}
+	}
+	
+	private void handleFuture(Future<?> f) {
+		if (f != null) {
 			while (true) {
 				try {
 					//Wait for all threads to complete
-					log.info("Waiting for the ShoppingCartThreads executor to complete ...");
-					future.get();
+					log.info("Waiting for the executor to complete ...");
+					f.get();
 				} catch (java.util.concurrent.ExecutionException e) {
-					log.error("Exception in ShoppingCartThreads thread: {}", e);
+					log.error("Exception in thread: {}", e);
 				} catch (Exception e) {
-					log.error("Exception in ShoppingCartThreads thread: {}", e);
+					log.error("Exception in thread: {}", e);
 					throw new ShoppingCartException(e);
 				}
 				break;
@@ -80,12 +80,15 @@ public class ShoppingCartThread implements Callable<Object> {
 		}
 	}
 
-	private void shutdownExecutor(ShoppingCartTaskExecutor executor) {
-		log.info("Lets shutdown the ShoppingCartThreads executor");
-		executor.shutdown();
-		log.info("Waiting for the ShoppingCartThreads executor to complete ...");
-		executor.awaitTermination(10, TimeUnit.MINUTES);
-		executor.shutdownNow();
-		log.info("Completed shutting down ShoppingCartThreads executor");
+	public void shutdownExecutor(ShoppingCartTaskExecutor executor) {
+		if (executor != null) {
+			log.info("Lets shutdown the ShoppingCartTaskExecutor");
+			executor.shutdown();
+	
+			log.info("Waiting for the ShoppingCartTaskExecutor to complete ...");
+			executor.awaitTermination(10, TimeUnit.MINUTES);
+			executor.shutdownNow();
+			log.info("Completed shutting down ShoppingCartTaskExecutor");
+		}
 	}
 }

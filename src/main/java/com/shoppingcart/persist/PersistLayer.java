@@ -29,7 +29,7 @@ public class PersistLayer {
 			}
 			return true;
 		} catch (SQLException e) {
-			log.error("SQL 	Exception: {}", e.getMessage());
+			log.error("SQL 	Exception", e);
 			return false;
 		}
 	}
@@ -93,7 +93,7 @@ public class PersistLayer {
 			log.info("Completed persisting Customer");
 			return true;
 		} catch (SQLException e) {
-			log.error("An exception occured: {}", e);
+			log.error("An exception occured", e);
 			return false;
 		}
 

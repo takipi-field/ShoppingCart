@@ -5,7 +5,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mockdata.generate.DelayGenerator;
 import com.mockdata.generate.utils.DateUtils;
 import com.mockdata.generate.utils.RandomUtil;
 import com.shoppingcart.domain.Customer;
@@ -47,7 +46,6 @@ public class ShoppingCartManager {
 		order.setOrderComplete(true);
 		
 		log.info("Completing the Order ...");
-		DelayGenerator.generateRandomDelay();
 		return order;
 	}
 
@@ -62,7 +60,6 @@ public class ShoppingCartManager {
 		log.info("Adding OrderDetail to the order ...");
 		order.add(orderDetail);
 		log.info("Completed adding OrderDetail to the order");
-		DelayGenerator.generateRandomDelay();
 	}
 
 	public void validate() {
@@ -72,6 +69,5 @@ public class ShoppingCartManager {
 			throw new CustomerInActiveException("Cannot create an order for an inactive customer: Customer is: " + customer.getAccountNumber());
 		}
 		log.info("Completed validating Order");
-		DelayGenerator.generateRandomDelay();
 	}
 }

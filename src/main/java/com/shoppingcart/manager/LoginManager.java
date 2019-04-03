@@ -35,7 +35,7 @@ public class LoginManager {
 			}
 			log.info("Login Successful for customer: {} at: {}", loggedInCustomer.getAccountNumber(), loggedInDateTime);
 		} catch (LoginException e) {
-			log.error("Login Exception: {}", e);
+			log.error("Login Exception", e);
 			throw new ShoppingCartException(e);
 		}
 	}

@@ -67,7 +67,7 @@ public class OrderDAOImpl implements OrderDAO {
 			order.setLastUpdated(DateUtils.getNow());
 			log.info("Completed updating the Order Date");
 		} catch (ParseException e) {
-			log.error("An exception occured: {}", e.getMessage());
+			log.error("An exception occured", e);
 		}
 	}
 
