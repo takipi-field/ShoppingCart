@@ -11,9 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.shoppingcart.dao.CustomerDAO;
-import com.shoppingcart.dao.impl.CustomerDAOImpl;
-import com.shoppingcart.domain.Customer;
+import com.empire.mockdata.generate.DelayGenerator;
+import com.empire.shoppingcart.dao.CustomerDAO;
+import com.empire.shoppingcart.dao.impl.CustomerDAOImpl;
+import com.empire.shoppingcart.domain.Customer;
 
 public class CustomerTest {
 
@@ -23,7 +24,9 @@ public class CustomerTest {
 
 	@BeforeClass
 	static void setUpBeforeClass() throws Exception {
-		try {			
+		try {
+			log.info("Starting Application ... Waiting for 15 seconds for OverOps to Initialize");
+			DelayGenerator.introduceDelay(15000);
 			customerDAO = new CustomerDAOImpl();
 			customer = customerDAO.create("CUSTTEST3000");
 		} catch (Exception e) {

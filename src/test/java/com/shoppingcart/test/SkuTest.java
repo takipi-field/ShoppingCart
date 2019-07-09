@@ -7,13 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.empire.shoppingcart.dao.SkuDAO;
+import com.empire.shoppingcart.dao.impl.SkuDAOImpl;
+import com.empire.shoppingcart.domain.SKU;
+import com.empire.shoppingcart.exception.ShoppingCartException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.shoppingcart.dao.SkuDAO;
-import com.shoppingcart.dao.impl.SkuDAOImpl;
-import com.shoppingcart.domain.SKU;
-import com.shoppingcart.exception.ShoppingCartException;
 
 public class SkuTest {
 
