@@ -23,8 +23,21 @@ public class CustomerDAOImpl implements CustomerDAO {
 	@Override
 	public Customer getByCustomerNumber(String customerNumber) {
 		try {
-			log.info("Trying to get the Order by customerNumber");
+			log.info("Trying to get the Customer by customerNumber");
 			Customer customer = dataGenerator.generateCustomer(customerNumber);
+			log.info("Found the customer: {}", customer.getAccountNumber());
+			return customer;
+		} catch (Exception e) {
+			log.error("Unable to get customer - getByCustomerNumber: {}", customerNumber);
+			throw new ShoppingCartException(e);
+		}
+	}
+	
+	@Override
+	public Customer getCustomerByNumber(String customerNumber) {
+		try {
+			log.info("Trying to get the Customer by customerNumber");
+			Customer customer = dataGenerator.generateCompleteCustomer(customerNumber);
 			log.info("Found the customer: {}", customer.getAccountNumber());
 			return customer;
 		} catch (Exception e) {

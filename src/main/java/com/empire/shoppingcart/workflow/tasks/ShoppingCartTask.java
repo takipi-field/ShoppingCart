@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import com.empire.mockdata.generate.utils.RandomUtil;
 import com.empire.shoppingcart.domain.ShoppingCartProperties;
 import com.empire.shoppingcart.exception.ShoppingCartException;
-import com.empire.shoppingcart.newexceptions.NewExceptionsHandler;
 import com.empire.shoppingcart.util.exception.SkuException;
 import com.empire.shoppingcart.workflow.ShoppingCartWF;
 
@@ -71,10 +70,10 @@ public class ShoppingCartTask implements Runnable {
 	private void executeMultipleWorkflows() throws ParseException {
 		log.info("Starting executing multiple workflows");
 		ShoppingCartWF workflow = new ShoppingCartWF();
-		NewExceptionsHandler newExceptionsHandler = new NewExceptionsHandler();
 
-		int randomNo = RandomUtil.getRandomNumberInRange(1, 15);
-		switch (randomNo) {
+		int workflowSelected = RandomUtil.getRandomNumberInRange(1, 15);
+		log.info("Workflow executed is: {}", workflowSelected);
+		switch (workflowSelected) {
 			case 1:	if (scProperties.isWorkflow1Enabled()) {	
 						workflow.workflow1();
 					}
@@ -128,10 +127,10 @@ public class ShoppingCartTask implements Runnable {
 					}
 					break;
 			case 14: if (scProperties.isWorkflow14Enabled()) {
-					newExceptionsHandler.create();
+					workflow.workflow14();
 					}
-			break;	
-			default: 	throw new ShoppingCartException("Could not find workflow to initiate: " + randomNo);
+					break;	
+			default: 	throw new ShoppingCartException("Could not find workflow to initiate: " + workflowSelected);
 		}
 	}
 }

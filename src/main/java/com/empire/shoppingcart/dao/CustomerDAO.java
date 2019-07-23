@@ -8,6 +8,7 @@ import com.empire.shoppingcart.domain.Order;
 public interface CustomerDAO {
 
 	public abstract Customer getByCustomerNumber(String customerNumber);
+	public abstract Customer getCustomerByNumber(String customerNumber);
 	public abstract Customer getById(int id);
 	public abstract Customer create();
 	public abstract Customer create(String customerNumber);	

@@ -48,6 +48,17 @@ public class OrderManager {
 		return order;
 	}
 
+	public Order getOrder(String orderNumber, String customerNumber) {
+		log.info("Getting the Order for a customer");
+		CustomerManager custMgr = new CustomerManager();
+		Customer customer = custMgr.getCustomer(customerNumber);
+		
+		log.info("Found the Customer, lets get the order");
+		Order order = get(orderNumber);
+		order.setCustomer(customer);
+		return order;
+	}
+	
 	public void updateOrderDate(Order order, String orderDate) {
 		log.info("Updating the OrderDate");
 		orderDAO.updateOrderDate(order, orderDate);

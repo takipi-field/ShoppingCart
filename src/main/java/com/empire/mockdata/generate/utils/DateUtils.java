@@ -25,6 +25,15 @@ public class DateUtils {
 		return month + separator + day + separator + year;
 	}
 	
+	public static String getValidRandomDateString() {
+		int day = RandomUtil.getRandomNumberInRange(1, 31);
+		int month = RandomUtil.getRandomNumberInRange(1, 12);
+		int year = RandomUtil.getRandomNumberInRange(1950, 2018);
+		String separator = "/";
+		
+		return month + separator + day + separator + year;
+	}
+	
 	public static Date getRandomDate(int afterDays) {
 		int noOfDays = RandomUtil.getRandomNumberInRange(1, afterDays + 1);
 		Calendar c = Calendar.getInstance();

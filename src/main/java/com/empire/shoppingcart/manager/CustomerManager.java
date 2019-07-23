@@ -22,6 +22,11 @@ public class CustomerManager {
 		return customerDAOImpl.getByCustomerNumber(customerNumber);
 	}
 
+	public Customer getCustomer(String customerNumber) {
+		log.info("Getting a customer");
+		return customerDAOImpl.getCustomerByNumber(customerNumber);
+	}
+	
 	public Customer create(String customerNumber) {
 		log.info("Creating a customer");
 		DelayGenerator.generateRandomDelay();

@@ -137,6 +137,55 @@ public class DataGenerator {
 		return customer;
 	}
 
+	public Customer generateCompleteCustomer(String customerNumber) {
+		log.info("Generating a new customer");
+		Customer customer = new Customer();
+		
+		customer.setAccountNumber(customerNumber);
+		customer.setId(RandomUtil.generateRandom(999999));
+		customer.setFirstName(DataTypeGenerator.getRandomDataType("FIRST_NAMES"));
+		customer.setLastName(DataTypeGenerator.getRandomDataType("LAST_NAMES"));
+		customer.setActive(true);
+		customer.setCreatedDateTime(DateUtils.getNow());
+		customer.setCustomerType(generateCustomerType());
+		customer.setSsn(RandomUtil.generateRandomNumericString(3) + "-" + 
+				RandomUtil.generateRandomNumericString(2) + "-" + 
+					RandomUtil.generateRandomNumericString(3));
+
+		log.info("Creating a a home and work address");
+		Address homeAddress = generateAddress("home", true);
+		Address workAddress = generateAddress("work", false);
+		
+		List<Address> addressList = new ArrayList<>();
+		addressList.add(homeAddress); addressList.add(workAddress);
+		customer.setAddresses(addressList);
+
+		log.info("Generating an email ...");
+		Email email1 = generateEmail(customer.getFullName(), "work", true);
+		Email email2 = generateEmail(customer.getFullName(), "home", false);
+		List<Email> emailList = new ArrayList<>();
+		emailList.add(email1); emailList.add(email2);
+		customer.setEmails(emailList);
+		
+		log.info("Generating phone numbers ...");
+		Phone phone1 = generatePhone("mobile", true);
+		Phone phone2 = generatePhone("work", false);
+		List<Phone> phoneList = new ArrayList<>();
+		phoneList.add(phone1); phoneList.add(phone2);
+		customer.setPhoneNumbers(phoneList);
+
+		String dateString = DateUtils.getValidRandomDateString();
+		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+		try {
+			customer.setDob(format.parse(dateString));
+		} catch (ParseException e) {
+			log.error("Unable to parse date", e);
+		}
+		
+		log.info("Complete - lets return customer");
+		return customer;
+	}
+
 	//NeedToDo - Generate a phone
 	private Phone generatePhone(String type, boolean defaultInd) {
 		log.info("Creating a phone with type {} and defaultInd {}", type , defaultInd);

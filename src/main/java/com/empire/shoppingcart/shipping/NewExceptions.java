@@ -1,4 +1,4 @@
-package com.empire.shoppingcart.newexceptions;
+package com.empire.shoppingcart.shipping;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,9 +12,9 @@ import com.empire.mockdata.generate.utils.RandomUtil;
 import com.empire.shoppingcart.util.ExceptionListReader;
 
 @SuppressWarnings("unchecked")
-public class NewExceptions8 {
+public class NewExceptions {
 
-	private static final Logger log = LoggerFactory.getLogger(NewExceptions8.class);
+	private static final Logger log = LoggerFactory.getLogger(NewExceptions.class);
 	private static final DateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMdd");
 	
 	private static long storedDate = 0;
@@ -26,8 +26,8 @@ public class NewExceptions8 {
 		if (storedDate == 0 || storedDate < now) {
 			storedDate = now;
 			log.info("Its a brand new day - lets create a brand new exceptions");
-			int i = RandomUtil.getRandomNumberInRange(1, 4);
-			if (i == 3) {
+			int i = RandomUtil.getRandomNumberInRange(1, 10);
+			if (i == 5) {
 				log.info("Won the lottery, lets create the exception");
 				create();
 			}

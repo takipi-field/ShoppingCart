@@ -1,39 +1,36 @@
 package com.empire;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.empire.mockdata.generate.DelayGenerator;
+import com.empire.mockdata.generate.utils.RandomUtil;
+import com.empire.shoppingcart.shipping.ShippingHandler;
+
 public class MainTesting {
 
-	public static final Logger log = LoggerFactory.getLogger(MainTesting.class);
-	private static AtomicLong count = new AtomicLong(5);
-	private static final DateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMdd");
-	private static long storedDate = 0;
+	public final static Logger log = LoggerFactory.getLogger(MainTesting.class);
 
 	public static void main(String[] args) {
-		for (int i=0; i<=50; i++) {
-			determineCount();
-			log.info(""+count);
-		}
-	}
-	
-	public synchronized static void determineCount() {
-		Date nowDate = Calendar.getInstance().getTime();
-		long now = Long.parseLong(simpleDateFormat.format(nowDate));
-		
-		if (storedDate == 0 || storedDate < now) {
-			storedDate = now;
-			log.info("Its a brand new day - lets increase the no of errors by 10 percent");
-			count.set(Math.round(count.floatValue()*1.10));
-			if (count.get() > 500) {
-				count.set(5);
-			}
+		log.info("Starting Retail Application ...Waiting for 15 seconds for OverOps to Initialize");
+		DelayGenerator.introduceDelay(15000);
+
+		try {
+			String orderNumber = "ORD-" + RandomUtil.generateRandomNumericString(4);
+			String customerNumber = "CUST-" + RandomUtil.generateRandomNumericString(4);
+			
+			log.info("CustomerNumber {}", customerNumber);
+			log.info("OrderNumber {}", orderNumber);
+
+			ShippingHandler handler = new ShippingHandler();
+			handler.handle(customerNumber, orderNumber);
+			
+//			ShippingTest test = new ShippingTest();
+//			test.processShipment(customerNumber, orderNumber, "test", 0);
+			
+			log.info("Done ....");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
