@@ -146,7 +146,7 @@ public class ShoppingCartPropertyManager {
 					log.info("Overriding workflow13_enabled with: {}", workflow13Enabled);
 				}
 				if (args[i].contains("workflow14_enabled")) {
-					workflow13Enabled = Boolean.parseBoolean(args[i].substring(19));
+					workflow14Enabled = Boolean.parseBoolean(args[i].substring(19));
 					log.info("Overriding workflow14_enabled with: {}", workflow14Enabled);
 				}
 				

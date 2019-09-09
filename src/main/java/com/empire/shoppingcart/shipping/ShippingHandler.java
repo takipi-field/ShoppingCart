@@ -51,14 +51,17 @@ public class ShippingHandler {
 		Date nowDate = Calendar.getInstance().getTime();
 		long now = Long.parseLong(simpleDateFormat.format(nowDate));
 		log.debug("Stored Date is {}: ", shippingStoredDate);
-		if (shippingStoredDate == 0 || shippingStoredDate < now) {
+		if (shippingStoredDate == 0 || shippingStoredDate != now) {
 			shippingStoredDate = now;
+			log.info("Shipping Stored Date set to: {}", shippingStoredDate);
 			log.info("Lets get the number of Shipments ...");
 			int noOfShipments = RandomUtil.getRandomNumberInRange(5, 20);
 			log.info("Number of Shipments for Order {} is {}", orderNumber, noOfShipments);
-			return noOfShipments+"";
+			return noOfShipments + "";
+		} else {
+			log.info("Already created shipments for today.");
+			return "0";
 		}
-		return "0";
 	}
 
     private void handleShipment(String customerNumber, String orderNumber, String shipmentDetails, String shipNumber) {

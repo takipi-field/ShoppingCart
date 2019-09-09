@@ -1,4 +1,4 @@
-package com.empire.shoppingcart.shipping;
+package com.empire.extra;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

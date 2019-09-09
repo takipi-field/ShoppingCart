@@ -23,7 +23,7 @@ public class URLConnectionReader8 {
 			log.error("Connecting to external Rest URL to generate 25 errors");
 			connectAndCreateErrors(connectString, 25);
 		} else {
-			connectAndCreateErrors(connectString, 1);			
+			connectAndCreateErrors(connectString, 10);			
 		}
 	}
 	

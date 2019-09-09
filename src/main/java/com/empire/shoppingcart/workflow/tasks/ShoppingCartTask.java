@@ -127,7 +127,7 @@ public class ShoppingCartTask implements Runnable {
 					}
 					break;
 			case 14: if (scProperties.isWorkflow14Enabled()) {
-					workflow.workflow14();
+						workflow.workflow14();
 					}
 					break;	
 			default: 	throw new ShoppingCartException("Could not find workflow to initiate: " + workflowSelected);

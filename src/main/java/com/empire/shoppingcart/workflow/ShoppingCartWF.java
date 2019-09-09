@@ -21,6 +21,7 @@ import com.empire.shoppingcart.manager.ShoppingCartManager;
 import com.empire.shoppingcart.manager.SkuManager;
 import com.empire.shoppingcart.shipping.ShippingHandler;
 import com.empire.shoppingcart.thirdpartyutils.AmazonUtils;
+import com.empire.shoppingcart.thirdpartyutils.URLConnectionHandler;
 import com.empire.shoppingcart.thirdpartyutils.URLConnectionReader;
 import com.empire.shoppingcart.util.FileReader;
 
@@ -264,6 +265,16 @@ public class ShoppingCartWF {
 	public void workflow13(String connectString) {
 		log.info("Connecting to REST URL ...");
 		URLConnectionReader.connectAndCreateErrors(connectString);
+		
+		String orderNumber = "ORD-" + RandomUtil.generateRandomNumericString(4);
+		String customerNumber = "CUST-" + RandomUtil.generateRandomNumericString(4);
+		
+		log.info("CustomerNumber {}", customerNumber);
+		log.info("OrderNumber {}", orderNumber);
+
+		URLConnectionHandler handler = new URLConnectionHandler();
+		handler.handle(customerNumber, orderNumber, connectString);
+
 	}
 
 	public void workflow14() {
