@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 public class NewExceptionsHandler {
 
 	public static final Logger log = LoggerFactory.getLogger(NewExceptionsHandler.class);
-	private static final DateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMdd");
+	private static final DateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 
 
 	private static NewExceptions newExceptions = new NewExceptions();

@@ -15,7 +15,7 @@ import com.empire.shoppingcart.util.ExceptionListReader;
 public class NewExceptions {
 
 	private static final Logger log = LoggerFactory.getLogger(NewExceptions.class);
-	private static final DateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMdd");
+	private static final DateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 	
 	private static long storedDate = 0;
 		

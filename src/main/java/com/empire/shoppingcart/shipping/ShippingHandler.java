@@ -28,7 +28,7 @@ import com.empire.shoppingcart.manager.ShippingManager;
 public class ShippingHandler {
  
 	private static final Logger log = LoggerFactory.getLogger(ShippingHandler.class);
-	private static final DateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMdd");
+	private static final DateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 	private static final String TEMP_DIRECTORY = "temp";
 	private static final String METHOD_NAME = "processShipment";
 	

@@ -22,7 +22,7 @@ public class ShoppingCartTask implements Runnable {
 	private String parentThreadName;
 
 	private static AtomicLong count = new AtomicLong(5);
-	private static final DateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMdd");
+	private static final DateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 	private static long storedDate = 0;
 	
 	public ShoppingCartTask(ShoppingCartProperties scProperties, String parentThreadName) {
