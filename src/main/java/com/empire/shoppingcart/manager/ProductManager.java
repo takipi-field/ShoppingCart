@@ -41,7 +41,7 @@ public class ProductManager {
 
 	public void update(Product product) {
 		log.info("Updating the product: {}", product.getId());
-		int randomNumber = RandomUtil.generateRandom(40);
+		int randomNumber = RandomUtil.generateRandom(400);
 		if (randomNumber == 5) {
 			customEventManager.generateEvent("Updating a product with productID: " + product.getProductNumber(), 
 				"Updating a product with productNumber: " + product.getProductNumber());
