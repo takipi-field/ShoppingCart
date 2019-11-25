@@ -69,7 +69,7 @@ jobs:
   serial: true
   plan:
   - get: git-repo
-    passed: [uat-deploy]
+    passed: [uat-deploy, build]
     trigger: true
   - get: user-acceptance-testing
   - task: test-artifact # This installs OverOps + builds and tests the git repo
