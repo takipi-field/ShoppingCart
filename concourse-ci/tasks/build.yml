@@ -14,9 +14,7 @@ run:
   args:
     - -c
     - |
-      echo $PWD
-      echo "hello world"
-      ls -lrta
+      cd git-repo
       ./mvnw clean compile package
 
 caches:
