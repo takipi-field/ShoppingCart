@@ -14,6 +14,7 @@ run:
   args:
     - -c
     - |
+      wget -O - -o /dev/null http://get.takipi.com | sudo bash /dev/stdin -i --sk=((overops-installation-key))
       cd git-repo
       ./mvnw clean compile package
 
