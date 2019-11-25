@@ -28,6 +28,20 @@ resources:
     newEvents: true
     resurfacedErrors: true
     debug: false
+- name: overops-quality-gates-integration
+  type: overops-resource
+  source:
+    overOpsURL: https://api.overops.com
+    overOpsSID: S6295
+    overOpsAPIKey: ((overOpsAPIKey))
+    applicationName: api
+    deploymentName: v5.0.140
+    markUnstable: false
+    activeTimespan: 2d
+    baselineTimespan: 14d
+    newEvents: true
+    resurfacedErrors: true
+    debug: false
 
 jobs:
 - name: build-app
@@ -45,3 +59,8 @@ jobs:
       markUnstable: false
   - task: test-artifact # This installs OverOps + builds and tests the git repo
     file: git-repo/concourse-ci/tasks/user-acceptance-test.yml
+  - get: overops-quality-gates-integration
+    params:
+      # override some optional source parameters on the job level
+      debug: false
+      markUnstable: true
