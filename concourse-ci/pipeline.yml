@@ -38,6 +38,7 @@ jobs:
     file: git-repo/concourse-ci/tasks/build.yml
     params:
       PROJECT_TYPE: ((project-type))
+      OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
   - get: overops-quality-gates
     params:
       # override some optional source parameters on the job level

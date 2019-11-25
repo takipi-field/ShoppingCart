@@ -14,7 +14,7 @@ run:
   args:
     - -c
     - |
-      wget -O - -o /dev/null http://get.takipi.com | sudo bash /dev/stdin -i --sk=((overops-installation-key))
+      wget -O - -o /dev/null http://get.takipi.com | sudo bash /dev/stdin -i --sk=$OVEROPS_INSTALLATION_KEY
       cd git-repo
       ./mvnw clean compile package
 
@@ -23,3 +23,4 @@ caches:
 
 params:
   PROJECT_TYPE: 
+  OVEROPS_INSTALLATION_KEY:
