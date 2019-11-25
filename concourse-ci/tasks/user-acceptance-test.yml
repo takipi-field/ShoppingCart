@@ -15,6 +15,7 @@ run:
     - -c
     - |
       cd git-repo
+      ls -lrta
       java -agentlib:TakipiAgent -jar target/shopping-cart-demo-1.0.jar
 
 caches:
