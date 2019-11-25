@@ -1,0 +1,45 @@
+---
+# This actually gets the OverOps Concourse Plugin
+resource_types:
+- name: overops-resource
+  type: docker-image
+  source:
+    repository: overops/concourse-resource
+    tag: latest
+    
+resources:
+- name: git-repo
+  type: git
+  source:
+    uri: ((app-url))
+    branch: ((app-branch))
+# This defines the OverOps Quality Gates build step to be later used as part of a build task
+- name: overops-quality-gates
+  type: overops-resource
+  source:
+    overOpsURL: https://api.overops.com
+    overOpsSID: S6295
+    overOpsAPIKey: ((overOpsAPIKey))
+    applicationName: api
+    deploymentName: v5.0.140
+    markUnstable: false
+    activeTimespan: 2d
+    baselineTimespan: 14d
+    newEvents: true
+    resurfacedErrors: true
+    debug: false
+
+jobs:
+- name: build-app
+  serial: true
+  plan:
+  - get: git-repo
+  - task: build-artifact
+    file: repo/ci/tasks/build.yml
+    params:
+      PROJECT_TYPE: ((project-type))
+  - get: overops-quality-gates
+    params:
+      # override some optional source parameters on the job level
+      debug: true
+      markUnstable: true
