@@ -13,6 +13,8 @@ resources:
   source:
     uri: ((app-url))
     branch: ((app-branch))
+- name: user-acceptance-testing
+  type: mock
 # This defines the OverOps Quality Gates build step to be later used as part of a build task
 - name: overops-quality-gates
   type: overops-resource
@@ -44,7 +46,7 @@ resources:
     debug: false
 
 jobs:
-- name: build-app
+- name: build
   serial: true
   plan:
   - get: git-repo
@@ -57,12 +59,19 @@ jobs:
       # override some optional source parameters on the job level
       debug: false
       markUnstable: false
-- name: prepare-app
+- name: uat-deploy
   serial: true
   plan:
   - get: git-repo
-    passed: [build-app]
+    passed: [build]
     trigger: true
+- name: uat-certify
+  serial: true
+  plan:
+  - get: git-repo
+    passed: [deploy]
+    trigger: true
+  - get: user-acceptance-testing
   - task: test-artifact # This installs OverOps + builds and tests the git repo
     file: git-repo/concourse-ci/tasks/user-acceptance-test.yml
   - get: overops-quality-gates-integration
