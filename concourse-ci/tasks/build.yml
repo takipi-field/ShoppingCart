@@ -6,7 +6,7 @@ image_resource:
     repository: openjdk
     tag: 8-jdk
 inputs:
-  - name: repo
+  - name: git-repo
 outputs:
   - name: out
 run:
