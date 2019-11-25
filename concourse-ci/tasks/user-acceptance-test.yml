@@ -6,15 +6,15 @@ image_resource:
     repository: openjdk
     tag: 8-jdk
 inputs:
-  - name: artifact
+  - name: git-repo
 outputs:
-  - name: report
+  - name: out
 run:
   path: /bin/sh
   args:
     - -c
     - |
-      cd artifact
+      cd git-repo
       ./mvnw exec:java
 
 caches:

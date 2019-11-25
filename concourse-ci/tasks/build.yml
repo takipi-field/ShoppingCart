@@ -8,7 +8,7 @@ image_resource:
 inputs:
   - name: git-repo
 outputs:
-  - name: artifact
+  - name: out
 run:
   path: /bin/sh
   args:
