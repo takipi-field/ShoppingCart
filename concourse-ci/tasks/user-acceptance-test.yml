@@ -17,7 +17,7 @@ run:
       cd git-repo
       ls -lrta
       echo "hello world"
-      java -agentlib:TakipiAgent -jar target/shopping-cart-demo-1.0.jar
+      #java -agentlib:TakipiAgent -jar target/shopping-cart-demo-1.0.jar
 
 caches:
   - path: maven
