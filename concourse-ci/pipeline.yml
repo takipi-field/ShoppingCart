@@ -59,6 +59,9 @@ jobs:
       # override some optional source parameters on the job level
       debug: false
       markUnstable: false
+  - put: git-repo
+    params:
+      build: context
 - name: uat-deploy
   serial: true
   plan:
