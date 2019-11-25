@@ -16,7 +16,7 @@ run:
     - |
       echo $PWD
       echo "hello world"
-      ll
+      ls -lrta
       ./mvnw clean compile package
 
 caches:
