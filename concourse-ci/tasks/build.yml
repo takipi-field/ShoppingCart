@@ -14,6 +14,9 @@ run:
   args:
     - -c
     - |
+      echo $PWD
+      echo "hello world"
+      ll
       ./mvnw clean compile package
 
 caches:
