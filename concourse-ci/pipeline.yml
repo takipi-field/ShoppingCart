@@ -35,7 +35,7 @@ jobs:
   plan:
   - get: git-repo
   - task: build-artifact
-    file: repo/ci/tasks/build.yml
+    file: git-repo/concourse-ci/tasks/build.yml
     params:
       PROJECT_TYPE: ((project-type))
   - get: overops-quality-gates

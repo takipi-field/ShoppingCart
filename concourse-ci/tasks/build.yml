@@ -14,7 +14,7 @@ run:
   args:
     - -c
     - |
-      mvn clean compile package
+      ./mvnw clean compile package
 
 caches:
   - path: maven
