@@ -60,8 +60,6 @@ jobs:
       debug: false
       markUnstable: false
   - put: git-repo
-    params:
-      build: context
 - name: uat-deploy
   serial: true
   plan:

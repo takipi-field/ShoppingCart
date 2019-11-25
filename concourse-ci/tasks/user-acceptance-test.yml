@@ -7,8 +7,7 @@ image_resource:
     tag: 8-jdk
 inputs:
   - name: git-repo
-outputs:
-  - name: git-repo
+  - name: target
 run:
   path: /bin/sh
   args:
