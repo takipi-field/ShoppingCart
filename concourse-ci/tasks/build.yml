@@ -16,6 +16,7 @@ run:
       cd git-repo
       ./mvnw clean compile package test surefire-report:report
       tar zcvf release.tar.gz target
+      echo "Created release.tar.gz"
 
 caches:
   - path: maven
