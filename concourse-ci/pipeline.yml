@@ -86,6 +86,8 @@ jobs:
   - get: user-acceptance-testing
   - task: test-artifact # This installs OverOps + builds and tests the git repo
     file: git-repo/concourse-ci/tasks/user-acceptance-test.yml
+    params:
+      OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
   - get: overops-quality-gates-integration
     params:
       # override some optional source parameters on the job level
