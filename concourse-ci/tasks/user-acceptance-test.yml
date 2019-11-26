@@ -6,17 +6,14 @@ image_resource:
     repository: openjdk
     tag: 8-jdk
 inputs:
-  - name: git-repo
-  - name: target
+  - name: release-artifact
 run:
   path: /bin/sh
   args:
     - -c
     - |
-      cd git-repo
-      ls -lrta
-      echo "hello world"
-      #java -agentlib:TakipiAgent -jar target/shopping-cart-demo-1.0.jar
+      tar zxvf target.tar.gz
+      java -agentlib:TakipiAgent -jar target/shopping-cart-demo-1.0.jar
 
 caches:
   - path: maven
