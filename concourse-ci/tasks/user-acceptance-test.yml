@@ -15,8 +15,7 @@ run:
     - -c
     - |
       cd release-artifact
-      ls -lrta
-      tar zxvf target.tar.gz
+      tar zxvf release.tar.gz
       java -agentlib:TakipiAgent -jar target/shopping-cart-demo-1.0.jar
 
 caches:
