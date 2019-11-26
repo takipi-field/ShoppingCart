@@ -32,16 +32,16 @@ resources:
     secret_access_key: ((s3-access-secret))
     bucket:            ((s3-bucket))
     key:                ((application-name))/build-version
-# - name: uat-version
-#   type: semver
-#   source:
-#     driver: s3
-#     initial_version: 0.0.1
-#     access_key_id:     ((s3-access-key))
-#     secret_access_key: ((s3-access-secret))
-#     bucket:            ((s3-bucket))
-#     region_name:        us-east-1
-#     key:                ((application-name))/uat-version
+- name: uat-version
+  type: semver
+  source:
+    driver: s3
+    initial_version: 0.0.1
+    access_key_id:     ((s3-access-key))
+    secret_access_key: ((s3-access-secret))
+    bucket:            ((s3-bucket))
+    region_name:        us-east-1
+    key:                ((application-name))/uat-version
 # This defines the OverOps Quality Gates build step to be later used as part of a build task
 - name: overops-quality-gates
   type: overops-resource
@@ -88,7 +88,7 @@ jobs:
       APPLICATION_NAME: ((application-name))
   - get: overops-quality-gates
     params:
-      overOpsURL: https://api.overops.com
+      overOpsURL: ((overops-host))
       overOpsSID: ((overops-environment-id))
       overOpsAPIKey: ((overops-api-key))
       applicationName: ((application-name))
@@ -117,6 +117,8 @@ jobs:
   serial: true
   plan:
   - get: git-repo
+  - put: uat-version
+    params: {bump: minor}
   - get: release-artifact
     passed: [uat-deploy]
     trigger: true
@@ -127,6 +129,7 @@ jobs:
       OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
   - get: overops-quality-gates-integration
     params:
+      deploymentName:  {file: uat-version/version}
       # override some optional source parameters on the job level
       debug: false
       markUnstable: true

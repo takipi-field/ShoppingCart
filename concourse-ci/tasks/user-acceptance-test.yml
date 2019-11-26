@@ -7,6 +7,7 @@ image_resource:
     tag: 8-jdk
 inputs:
   - name: release-artifact
+  - name: uat-version
 outputs:
   - name: out
 run:
@@ -14,10 +15,12 @@ run:
   args:
     - -c
     - |
+      export BUILD_VERSION=`cat uat-version/version`
       wget -O - -o /dev/null http://get.takipi.com | bash /dev/stdin -i --sk=$OVEROPS_INSTALLATION_KEY --local_collector
       cd release-artifact
       tar zxvf release.tar.gz
-      java -agentlib:TakipiAgent -jar target/shopping-cart-demo-1.0.jar
+      
+      java -agentlib:TakipiAgent -Dtakipi.application.name=$APPLICATION_NAME -Dtakipi.deployment.name=$BUILD_VERSION -jar target/shopping-cart-demo-1.0.jar
 
 caches:
   - path: maven
