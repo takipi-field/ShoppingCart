@@ -72,10 +72,10 @@ jobs:
 - name: uat-deploy
   serial: true
   plan:
-  - get: git-repo
+  - get: release-artifact
     passed: [build]
     trigger: true
-  - get: release-artifact
+  - get: git-repo  
 - name: uat-certify
   serial: true
   plan:
