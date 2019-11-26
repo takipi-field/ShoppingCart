@@ -15,6 +15,18 @@ run:
   args:
     - -c
     - |
+      echo "initial list"
+      ls -lrta
+      echo "cd build-version"
+      cd build-version
+      ls -lrta
+      echo "cat version"
+      cat version
+      echo "cd version"
+      cd version
+      echo "list version"
+      ls -lrta
+
       export BUILD_VERSION=`cat build-version/version/number`
       wget -O - -o /dev/null http://get.takipi.com | bash /dev/stdin -i --sk=$OVEROPS_INSTALLATION_KEY --local_collector
       cd git-repo
