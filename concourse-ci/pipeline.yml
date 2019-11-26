@@ -129,7 +129,14 @@ jobs:
       OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
   - get: overops-quality-gates-integration
     params:
+      overOpsURL: ((overops-host))
+      overOpsSID: ((overops-environment-id))
+      overOpsAPIKey: ((overops-api-key))
+      applicationName: ((application-name))
       deploymentName:  {file: uat-version/version}
-      # override some optional source parameters on the job level
-      debug: false
       markUnstable: true
+      activeTimespan: 2d
+      baselineTimespan: 14d
+      newEvents: true
+      resurfacedErrors: true
+      debug: false
