@@ -15,6 +15,13 @@ resources:
     branch: ((app-branch))
 - name: user-acceptance-testing
   type: mock
+- name: release
+  type: s3
+  source:
+    bucket: overops-samples-concourse-playground
+    versioned_file: shopping-cart/release.tgz
+    access_key_id: ((s3-access-key))
+    secret_access_key: ((s3-access-secret))
 # This defines the OverOps Quality Gates build step to be later used as part of a build task
 - name: overops-quality-gates
   type: overops-resource
@@ -59,7 +66,10 @@ jobs:
       # override some optional source parameters on the job level
       debug: false
       markUnstable: false
-  - put: git-repo
+  - put: release
+    params:
+      file: git-repo/target.tar.gz
+      acl: public-read
 - name: uat-deploy
   serial: true
   plan:
@@ -69,7 +79,7 @@ jobs:
 - name: uat-certify
   serial: true
   plan:
-  - get: git-repo
+  - get: release
     passed: [uat-deploy, build]
     trigger: true
   - get: user-acceptance-testing

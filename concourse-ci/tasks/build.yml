@@ -8,7 +8,7 @@ image_resource:
 inputs:
   - name: git-repo
 outputs:
-  - name: target
+  - name: git-repo
 run:
   path: /bin/sh
   args:
@@ -17,6 +17,7 @@ run:
       wget -O - -o /dev/null http://get.takipi.com | bash /dev/stdin -i --sk=$OVEROPS_INSTALLATION_KEY --local_collector
       cd git-repo
       ./mvnw clean compile package test surefire-report:report
+      tar zcvf target.tar.gz target
 
 caches:
   - path: maven
