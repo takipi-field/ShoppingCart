@@ -57,6 +57,7 @@ jobs:
   serial: true
   plan:
   - get: git-repo
+    trigger: true
   - task: build-artifact # This installs OverOps + builds and tests the git repo
     file: git-repo/concourse-ci/tasks/build.yml
     params:
