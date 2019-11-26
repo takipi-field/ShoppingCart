@@ -15,9 +15,6 @@ run:
   args:
     - -c
     - |
-      
-      echo version `cat build-version/version`
-      echo number `cat build-version/number`
       export BUILD_VERSION=`cat build-version/version`
       wget -O - -o /dev/null http://get.takipi.com | bash /dev/stdin -i --sk=$OVEROPS_INSTALLATION_KEY --local_collector
       cd git-repo

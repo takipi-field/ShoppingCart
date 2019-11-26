@@ -48,9 +48,9 @@ resources:
   source:
     overOpsURL: https://api.overops.com
     overOpsSID: S6295
-    overOpsAPIKey: ((overOpsAPIKey))
-    applicationName: api
-    deploymentName: v5.0.140
+    overOpsAPIKey: ((overops-api-key))
+    applicationName: api #((application-name))
+    deploymentName:  v5.0.140 # {file: build-version/version}
     markUnstable: false
     activeTimespan: 2d
     baselineTimespan: 14d
@@ -62,7 +62,7 @@ resources:
   source:
     overOpsURL: https://api.overops.com
     overOpsSID: S6295
-    overOpsAPIKey: ((overOpsAPIKey))
+    overOpsAPIKey: ((overops-api-key))
     applicationName: api
     deploymentName: v5.0.140
     markUnstable: false
@@ -88,10 +88,17 @@ jobs:
       APPLICATION_NAME: ((application-name))
   - get: overops-quality-gates
     params:
-      # override some optional source parameters on the job level
-      deploymentName: {file: build-version/version}
-      debug: false
+      overOpsURL: https://api.overops.com
+      overOpsSID: ((overops-environment-id))
+      overOpsAPIKey: ((overops-api-key))
+      applicationName: ((application-name))
+      deploymentName:  {file: build-version/version}
       markUnstable: false
+      activeTimespan: 2d
+      baselineTimespan: 14d
+      newEvents: true
+      resurfacedErrors: true
+      debug: false
   - put: release-artifact
     params:
       file: git-repo/release.tar.gz
