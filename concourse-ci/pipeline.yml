@@ -69,7 +69,7 @@ jobs:
       markUnstable: false
   - put: release-artifact
     params:
-      file: git-repo/target.tar.gz
+      file: git-repo/release.tar.gz
 - name: uat-deploy
   serial: true
   plan:
