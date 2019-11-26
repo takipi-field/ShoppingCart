@@ -14,8 +14,8 @@ run:
   args:
     - -c
     - |
-      ls -lrta
       cd release-artifact
+      ls -lrta
       tar zxvf target.tar.gz
       java -agentlib:TakipiAgent -jar target/shopping-cart-demo-1.0.jar
 
