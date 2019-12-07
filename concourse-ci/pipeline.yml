@@ -5,7 +5,7 @@ resource_types:
   type: docker-image
   source:
     repository: overops/concourse-resource
-    tag: latest
+    tag: read-param-from-file
     
 resources:
 - name: git-repo
@@ -41,36 +41,22 @@ resources:
     bucket:            ((s3-bucket))
     region_name:        us-east-1
     key:                ((application-name))/uat-version
-# This defines the OverOps Quality Gates build step to be later used as part of a build task
+# This defines the OverOps Quality Gates build step default configurations
+# which can be overwritten later on per step basis
 - name: overops-quality-gates
   type: overops-resource
   source:
-    overOpsURL: https://api.overops.com
-    overOpsSID: S6295
+    overOpsURL: ((overops-host))
+    overOpsSID: ((overops-environment-id))
     overOpsAPIKey: ((overops-api-key))
-    applicationName: api #((application-name))
-    deploymentName:  v5.0.140 # {file: build-version/version}
-    markUnstable: false
+    applicationName: ((application-name))
+    markUnstable: true
     activeTimespan: 2d
     baselineTimespan: 14d
     newEvents: true
     resurfacedErrors: true
-    debug: true
-- name: overops-quality-gates-integration
-  type: overops-resource
-  source:
-    overOpsURL: https://api.overops.com
-    overOpsSID: S6295
-    overOpsAPIKey: ((overops-api-key))
-    applicationName: api
-    deploymentName: v5.0.140
-    markUnstable: false
-    activeTimespan: 2d
-    baselineTimespan: 14d
-    newEvents: true
-    resurfacedErrors: true
-    debug: true
-
+    debug: false
+    
 jobs:
 ### 1. Checkout and build the artifact using Maven. Check unit tests using OverOps Quality Gates
 - name: build
@@ -86,17 +72,10 @@ jobs:
       OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
       APPLICATION_NAME: ((application-name))
   - put: overops-quality-gates
+    params:
+      deploymentName: {file: build-version/version}
     get_params:
-      overOpsURL: ((overops-host))
-      overOpsSID: ((overops-environment-id))
-      overOpsAPIKey: ((overops-api-key))
-      applicationName: ((application-name))
-      deploymentName:  {file: build-version/version}
       markUnstable: false
-      activeTimespan: 2d
-      baselineTimespan: 14d
-      newEvents: true
-      resurfacedErrors: true
       debug: false
   - put: release-artifact
     params:
@@ -126,16 +105,9 @@ jobs:
     file: git-repo/concourse-ci/tasks/user-acceptance-test.yml
     params:
       OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
-  - put: overops-quality-gates-integration
+  - put: overops-quality-gates
+    params:
+      deploymentName: {file: uat-version/version}
     get_params:
-      overOpsURL: ((overops-host))
-      overOpsSID: ((overops-environment-id))
-      overOpsAPIKey: ((overops-api-key))
-      applicationName: ((application-name))
-      deploymentName:  {file: uat-version/version}
       markUnstable: true
-      activeTimespan: 2d
-      baselineTimespan: 14d
-      newEvents: true
-      resurfacedErrors: true
       debug: false
