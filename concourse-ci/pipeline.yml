@@ -3,6 +3,7 @@
 resource_types:
 - name: overops-resource
   type: docker-image
+  check_every: 1000m
   source:
     repository: overops/concourse-resource
     tag: latest
@@ -55,7 +56,7 @@ resources:
     baselineTimespan: 14d
     newEvents: true
     resurfacedErrors: true
-    debug: true
+    debug: false
 - name: overops-quality-gates-integration
   type: overops-resource
   source:
@@ -69,7 +70,7 @@ resources:
     baselineTimespan: 14d
     newEvents: true
     resurfacedErrors: true
-    debug: true
+    debug: false
 
 jobs:
 ### 1. Checkout and build the artifact using Maven. Check unit tests using OverOps Quality Gates
@@ -86,7 +87,7 @@ jobs:
       OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
       APPLICATION_NAME: ((application-name))
   - put: overops-quality-gates
-    get_params:
+    params:
       overOpsURL: ((overops-host))
       overOpsSID: ((overops-environment-id))
       overOpsAPIKey: ((overops-api-key))
@@ -127,7 +128,7 @@ jobs:
     params:
       OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
   - put: overops-quality-gates-integration
-    get_params:
+    params:
       overOpsURL: ((overops-host))
       overOpsSID: ((overops-environment-id))
       overOpsAPIKey: ((overops-api-key))
