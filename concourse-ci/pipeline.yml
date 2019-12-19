@@ -86,7 +86,7 @@ jobs:
     params:
       OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
       APPLICATION_NAME: ((application-name))
-  - get: overops-quality-gates
+  - put: overops-quality-gates
     params:
       overOpsURL: ((overops-host))
       overOpsSID: ((overops-environment-id))
@@ -127,7 +127,7 @@ jobs:
     file: git-repo/concourse-ci/tasks/user-acceptance-test.yml
     params:
       OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
-  - get: overops-quality-gates-integration
+  - put: overops-quality-gates-integration
     params:
       overOpsURL: ((overops-host))
       overOpsSID: ((overops-environment-id))

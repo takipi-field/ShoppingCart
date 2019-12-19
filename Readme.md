@@ -1,14 +1,10 @@
 To execute this ShoppingCartApplication from command prompt, you need a JDK and Maven
 
-1.  Go to ShoppingCart folder and execute
-
-mvn install:install-file -Dfile=takipi-sdk-0.2.0.jar -DgroupId=com.takipi -DartifactId=takipi-sdk -Dversion=0.2.0 -Dpackaging=jar -DgeneratePom=true
-
-2.  Go to the ShoppingCart Folder and execute
+1.  Go to the ShoppingCart Folder and execute
 ```
 mvn clean compile package
 ```
-3.  
+2.  
     * To run "All workflows", execute
     ```
     ./runAllWorkflows.sh
@@ -38,15 +34,15 @@ You can also specify the OverOps ApplicationName and Deployment name from the sc
 -Dtakipi.name=ShoppingCartApplication -Dtakipi.deployment.name=v1.0
 ```
 
-4. You can also run this from maven command line using the below command
+3. You can also run this from maven command line using the below command
 ```
   	mvn exec:java
 ```
-5. To execute the maven tests run the below command
+4. To execute the maven tests run the below command
 ```
   	mvn test
 ```
-6. To get the surefire report, run the below command
+5. To get the surefire report, run the below command
 ```
 	mvn surefire-report:report
 ```
