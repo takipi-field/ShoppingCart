@@ -1,0 +1,142 @@
+---
+# This actually gets the OverOps Concourse Plugin
+resource_types:
+- name: overops-resource
+  type: docker-image
+  check_every: 1000m
+  source:
+    repository: overops/concourse-resource
+    tag: latest
+    
+resources:
+- name: git-repo
+  type: git
+  source:
+    uri: ((app-url))
+    branch: ((app-branch))
+- name: user-acceptance-testing
+  type: mock
+- name: release-artifact
+  type: s3
+  source:
+    bucket: ((s3-bucket))
+    versioned_file: ((application-name))/release.tar.gz
+    access_key_id: ((s3-access-key))
+    secret_access_key: ((s3-access-secret))
+- name: build-version
+  type: semver
+  source:
+    driver: s3
+    initial_version: 0.0.1
+    access_key_id:     ((s3-access-key))
+    secret_access_key: ((s3-access-secret))
+    bucket:            ((s3-bucket))
+    key:                ((application-name))/build-version
+- name: uat-version
+  type: semver
+  source:
+    driver: s3
+    initial_version: 0.0.1
+    access_key_id:     ((s3-access-key))
+    secret_access_key: ((s3-access-secret))
+    bucket:            ((s3-bucket))
+    region_name:        us-east-1
+    key:                ((application-name))/uat-version
+# This defines the OverOps Quality Gates build step to be later used as part of a build task
+- name: overops-quality-gates
+  type: overops-resource
+  source:
+    overOpsURL: https://api.overops.com
+    overOpsSID: S6295
+    overOpsAPIKey: ((overops-api-key))
+    applicationName: api #((application-name))
+    deploymentName:  v5.0.140 # {file: build-version/version}
+    markUnstable: false
+    activeTimespan: 2d
+    baselineTimespan: 14d
+    newEvents: true
+    resurfacedErrors: true
+    debug: false
+- name: overops-quality-gates-integration
+  type: overops-resource
+  source:
+    overOpsURL: https://api.overops.com
+    overOpsSID: S6295
+    overOpsAPIKey: ((overops-api-key))
+    applicationName: api
+    deploymentName: v5.0.140
+    markUnstable: false
+    activeTimespan: 2d
+    baselineTimespan: 14d
+    newEvents: true
+    resurfacedErrors: true
+    debug: false
+
+jobs:
+### 1. Checkout and build the artifact using Maven. Check unit tests using OverOps Quality Gates
+- name: build
+  serial: true
+  plan:
+  - get: git-repo
+    trigger: true
+  - put: build-version
+    params: {bump: minor}
+  - task: build-artifact # This installs OverOps + builds and tests the git repo
+    file: git-repo/concourse-ci/tasks/build.yml
+    params:
+      OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
+      APPLICATION_NAME: ((application-name))
+  - get: overops-quality-gates
+    params:
+      overOpsURL: ((overops-host))
+      overOpsSID: ((overops-environment-id))
+      overOpsAPIKey: ((overops-api-key))
+      applicationName: ((application-name))
+      deploymentName:  {file: build-version/version}
+      markUnstable: false
+      activeTimespan: 2d
+      baselineTimespan: 14d
+      newEvents: true
+      resurfacedErrors: true
+      debug: false
+  - put: release-artifact
+    params:
+      file: git-repo/release.tar.gz
+
+### 2. Deploy the artifact on a UAT environment 
+- name: uat-deploy
+  serial: true
+  plan:
+  - get: release-artifact
+    passed: [build]
+    trigger: true
+  - get: git-repo  
+
+### 3. Run tests against the artifact and then run OverOps Quality Gates report
+- name: uat-certify
+  serial: true
+  plan:
+  - get: git-repo
+  - put: uat-version
+    params: {bump: minor}
+  - get: release-artifact
+    passed: [uat-deploy]
+    trigger: true
+  - get: user-acceptance-testing
+  - task: test-artifact # This installs OverOps + builds and tests the git repo
+    file: git-repo/concourse-ci/tasks/user-acceptance-test.yml
+    params:
+      OVEROPS_INSTALLATION_KEY: ((overops-installation-key))
+  - get: overops-quality-gates-integration
+    params:
+      overOpsURL: ((overops-host))
+      overOpsSID: ((overops-environment-id))
+      overOpsAPIKey: ((overops-api-key))
+      applicationName: ((application-name))
+      deploymentName:  {file: uat-version/version}
+      markUnstable: true
+      activeTimespan: 2d
+      baselineTimespan: 14d
+      newEvents: true
+      resurfacedErrors: true
+      debug: false

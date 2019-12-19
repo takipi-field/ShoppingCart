@@ -1,0 +1,32 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: openjdk
+    tag: 8-jdk
+inputs:
+  - name: git-repo
+  - name: build-version
+outputs:
+  - name: git-repo
+run:
+  path: /bin/sh
+  args:
+    - -c
+    - |
+      export BUILD_VERSION=`cat build-version/version`
+      wget -O - -o /dev/null http://get.takipi.com | bash /dev/stdin -i --sk=$OVEROPS_INSTALLATION_KEY --local_collector
+      cd git-repo
+      export MAVEN_OPTS="-agentlib:TakipiAgent -Dtakipi.application.name=$APPLICATION_NAME -Dtakipi.deployment.name=$BUILD_VERSION"
+      ./mvnw clean compile package test surefire-report:report
+      tar zcvf release.tar.gz target
+      echo "Created release.tar.gz"
+
+caches:
+  - path: maven
+
+params:
+  OVEROPS_INSTALLATION_KEY:
+  APPLICATION_NAME:
+

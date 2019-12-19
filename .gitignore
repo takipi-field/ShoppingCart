@@ -9,3 +9,9 @@ dependency-reduced-pom.xml
 .DS_Store
 
 target
+
+.classpath
+.project
+.settings
+
+credentials.yml
