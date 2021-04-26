@@ -1,0 +1,80 @@
+resources:
+  containers:
+  - container: collector
+    image: overops/collector:latest
+    env:
+      TAKIPI_BASE_URL: https://backend.overops.com
+      TAKIPI_LISTEN_PORT: 6060
+      TAKIPI_SERVER_NAME: azure
+      TAKIPI_SECRET_KEY: $(TakipiSecretKey)
+    ports:
+    - 6060:6060
+
+trigger:
+- master
+
+# pool:
+#   vmImage: ubuntu-latest
+
+services:
+  collector: collector
+
+# Variable Group From Pipline -> Library
+variables:
+  - group: overops-config
+
+# Build Paramters from User Interface
+parameters:
+  - name: markUnstable
+    displayName: Mark Unstable?
+    type: boolean
+    default: true
+
+steps:
+
+# Download Latest Agent from AWS
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      wget https://s3.amazonaws.com/app-takipi-com/deploy/linux/takipi-agent-latest.tar.gz
+      tar xvf takipi-agent-latest.tar.gz
+      echo takipi.deployment.name=Azure-$(Build.BuildNumber) > takipi/agent.properties
+      echo takipi.application.name=ShoppingCart >> takipi/agent.properties
+      echo takipi.collector.host=localhost >> takipi/agent.properties
+      echo takipi.collector.port=6060 >> takipi/agent.properties
+      echo takipi.log.to.console=true >> takipi/agent.properties
+      echo takipi.stats.interval=20 >> takipi/agent.properties
+
+# Build Shopping Cart
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean package'
+    options: '-DskipTests=true'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+
+# Run Shopping Card with Agent Attached
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      pwd
+      ls
+      java -Xms2G -Xmx2G -agentpath:./takipi/lib/libTakipiAgent.so -jar target/shopping-cart-demo-1.0.jar run_mode=ALL_WORKFLOWS no_of_threads=1 no_of_iterations=10 --server.port=9638
+
+# Run Quaity Report
+- task: OverOpsQualityReport@1
+  inputs:
+    overOpsAppURL: '$(overopsAppURL)'
+    overOpsURL: '$(overOpsURL)'
+    overOpsSID: '$(overOpsSID)'
+    overOpsAPIKey: '$(overOpsAPIKey)'
+    applicationName: 'ShoppingCart'
+    deploymentName: 'Azure-$(Build.BuildNumber)'
+    newEvents: true
+    markUnstable: ${{parameters.markUnstable}}
+    debug: true
